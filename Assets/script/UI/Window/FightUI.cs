@@ -102,10 +102,11 @@ public class FightUI : UIBase
             {
                 cardId = cardId + PlayCardList[i].GetCardNum().ToString();
             }
-            //Debug.Log(cardId);
+            Debug.Log(cardId);
 
 
             CardEffects.MatchCard(cardId, GetSpecialSkillLevel(cardId)); //Matchcard顺便就执行卡的效果
+
            StartCoroutine(UseCardEffects(cardId));
             BuffDescription.GetComponent<BuffDescription>().RefreshBuffText();
         }
@@ -113,7 +114,7 @@ public class FightUI : UIBase
 
     public SkillLevel GetSpecialSkillLevel(string skill)
     {
-        return RoleManager.Instance.GetCurrentSkillLevel(skill);
+        return RoleManager.Instance.GetCurrentCardLevel(skill);
     }
 
     IEnumerator UseCardEffects(string id)
@@ -137,7 +138,7 @@ public class FightUI : UIBase
         RemoveAllCards(true);
     }
 
-    //显示卡牌效果
+    //显示卡牌效果, 现在还没进行匹配
     private void ShowSkillText()
     {
         string cardId = "";
@@ -151,7 +152,8 @@ public class FightUI : UIBase
 
         GameObject obj = GameObject.FindGameObjectWithTag("SkillDes");
 
-        skillText = skillData[cardId];
+        //此条目前在还没有改写技能描述的情况下会报错
+        //skillText = skillData[cardId];
 
         obj.GetComponent<Text>().text = cardId + ":"+ skillText;
 
@@ -175,6 +177,23 @@ public class FightUI : UIBase
             for (int i = 0; i < BuffList.Count; i++)
             {
                 if (BuffList[i].GetBuffId() == id)
+                {
+                    return BuffList[i];
+                }
+            }
+            return null;
+        }
+        else
+            return null;
+    }
+
+    public BuffItem FindBuffWithLvl(string id, SkillLevel lvl)
+    {
+        if (BuffList.Count != 0)
+        {
+            for (int i = 0; i < BuffList.Count; i++)
+            {
+                if (BuffList[i].GetBuffId() == id && BuffList[i].GetBuffLevel() == lvl)
                 {
                     return BuffList[i];
                 }
@@ -305,7 +324,7 @@ public class FightUI : UIBase
             card.transform.localScale = new Vector2(1, 1);
         }
 
-        if (PlayCardList.Count == 4)
+        if (PlayCardList.Count == 3)
         {
             ShowSkillText();
             UseBtn.gameObject.SetActive(true);
@@ -323,7 +342,7 @@ public class FightUI : UIBase
         CardItem nowcard = card;
         //Debug.Log(nowcard);
 
-        if (PlayCardList.Count < 4 && FightManager.Instance.fightUnit is FightPlayerTurn)
+        if (PlayCardList.Count < 3 && FightManager.Instance.fightUnit is FightPlayerTurn)
         {
             PlayCardList.Add(nowcard);
             UpdatePlayCardPos();
@@ -402,6 +421,19 @@ public class FightUI : UIBase
         }
 
         refreshBuff();
+    }
+
+    public void TreasurePassTurn()
+    {
+        if (RoleManager.Instance.GetTreasure(1) != null)
+        {
+            RoleManager.Instance.GetTreasure(1).TPassTurn();
+        }
+
+        if (RoleManager.Instance.GetTreasure(2) != null)
+        {
+            RoleManager.Instance.GetTreasure(2).TPassTurn();
+        }
     }
 
     public void refreshBuff()

@@ -64,7 +64,7 @@ public class CardEffects
                 gamble();
                 break;
 
-            case SkillLevel.KNIGHT:
+            case SkillLevel.PALADIN:
                 FightManager.Instance.GetDefendRecover(6);
                 break;
         }
@@ -126,7 +126,7 @@ public class CardEffects
                 UIManager.Instance.GetUI<FightUI>("fightBackground").addBuff("010", SkillLevel.LEGENDARY, 2);
                 break;
 
-            case SkillLevel.KNIGHT:
+            case SkillLevel.PALADIN:
                 FightManager.Instance.GetDefendRecover(2);
                 FightManager.Instance.DefCount *= TimesByRate(1, 0.75f, 2);
                 break;
@@ -177,7 +177,7 @@ public class CardEffects
                 FightManager.Instance.GetRecover(8);
                 break;
 
-            case SkillLevel.KNIGHT:
+            case SkillLevel.PALADIN:
                 FightManager.Instance.Attack_Enemy(FightManager.Instance.DefCount);
                 break;
 
@@ -301,6 +301,7 @@ public class CardEffects
                 FightManager.Instance.Attack_Enemy(10 + BuffEffects.Buff_111_SAMURAI_DMGINCREASE);
                 if(BuffEffects.Buff_111_SAMURAI_DMGINCREASE < 20)
                     BuffEffects.Buff_111_SAMURAI_DMGINCREASE += 10;
+
                 break;
         }
     }

@@ -20,17 +20,17 @@ public class FightPlayerTurn : FightUnit
                 BuffEffects.MatchBuff("001", UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("001").GetBuffLevel());
             }
 
-            if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("010") != null 
-            && UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("010").GetBuffLevel() == SkillLevel.LEGENDARY)
+            if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("010", SkillLevel.LEGENDARY) != null)
             {
                 BuffEffects.MatchBuff("010", SkillLevel.LEGENDARY);
             }
             UIManager.Instance.GetUI<FightUI>("fightBackground").BuffPassTurn();
+            UIManager.Instance.GetUI<FightUI>("fightBackground").TreasurePassTurn();
 
 
             //³éÅÆ
 
-            int drawCardCount = 8 - UIManager.Instance.GetUI<FightUI>("fightBackground").GetCardNum() - UIManager.Instance.GetUI<FightUI>("fightBackground").GetPlayCardNum() ;
+            int drawCardCount = 6 - UIManager.Instance.GetUI<FightUI>("fightBackground").GetCardNum() - UIManager.Instance.GetUI<FightUI>("fightBackground").GetPlayCardNum() ;
             //Debug.Log(drawCardCount);//ÒÑ¾­ÐÞ¸ÄÎª²¹ÂúÅÆ
             UIManager.Instance.GetUI<FightUI>("fightBackground").CreatCardItem (drawCardCount);//²¹Âú¿¨ÅÆ
             UIManager.Instance.GetUI<FightUI>("fightBackground").UpdateCardItemPos();//¸üÐÂ¿¨ÅÆÎ»ÖÃ

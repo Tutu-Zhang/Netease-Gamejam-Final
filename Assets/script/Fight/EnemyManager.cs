@@ -70,6 +70,11 @@ public class EnemyManager
     public IEnumerator DoAllEnemyAction()
     {
 
+        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("BuffTreasure", SkillLevel.LEGENDARY) != null)
+        {
+            FightManager.Instance.Attack_Enemy(BuffEffects.buff_BuffTreasure(SkillLevel.LEGENDARY));
+        }
+
         if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("101") != null)
         {
             BuffEffects.MatchBuff("101", UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("101").GetBuffLevel());
@@ -80,9 +85,9 @@ public class EnemyManager
             BuffEffects.MatchBuff("111", UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("111").GetBuffLevel());
         }
 
-        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("1100") != null)
+        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("PergameTreasure", SkillLevel.RARE) != null)
         {
-            if (BuffEffects.buff_silence_1100())
+            if (BuffEffects.buff_PerTreasure_Rare())
             {
                 FightManager.Instance.ChangeType(FightType.Player);
                 yield break;

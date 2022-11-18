@@ -11,6 +11,9 @@ public class BuffEffects
     public static bool Buff_111_SAMURAL_IFUSED = false;
     public static int Buff_111_SAMURAI_DMGINCREASE = 0;
 
+    //纪录回复了多少护甲的变量,用于PALADIN的buff宝物
+    public static int PaladinBuffCount = 0;
+
     public static void MatchBuff(string buffid, SkillLevel buffLevel)
     {
         switch (buffid)
@@ -30,6 +33,7 @@ public class BuffEffects
             case "111":
                 buff_attack_111(buffLevel);
                 break;
+
 
         }
     }
@@ -54,7 +58,7 @@ public class BuffEffects
             case SkillLevel.LEGENDARY:
                 break;
 
-            case SkillLevel.KNIGHT:
+            case SkillLevel.PALADIN:
                 FightManager.Instance.GetDefendRecover(3);
                 FightManager.Instance.GetRecover(3);
                 break;
@@ -189,17 +193,82 @@ public class BuffEffects
         }
     }
 
-    public static bool buff_silence_1100()
+    //从这里开始是人物专属技能部分
+    public static int buff_Samurai_skill(SkillLevel level)
+    {
+        switch (level)
+        {
+            case SkillLevel.NORMAL:
+                return 4;
+
+            case SkillLevel.RARE:
+                return 6;
+
+            case SkillLevel.EPIC:
+                return 8;
+
+            case SkillLevel.LEGENDARY:
+                return 10;
+
+            default:
+                return 0;
+        }
+    }
+
+    //从这里开始是宝物buff部分
+    public static int buff_BuffTreasure(SkillLevel level)
+    {
+        switch (level)
+        {
+            case SkillLevel.RARE:
+                return 2;
+
+            case SkillLevel.EPIC:
+                return FightManager.Instance.CurHP - FightManager.Instance.MaxHP;
+
+            case SkillLevel.LEGENDARY:
+                return FightManager.Instance.TurnCount;
+
+            default:
+                return 0;
+        }
+    }
+
+    public static void buff_PaladinBuff()
+    {
+        if(PaladinBuffCount % 6 == 0)
+        {
+            FightManager.Instance.Attack_Enemy(4);
+        }
+    }
+
+    public static int buff_MonkBuff()
+    {
+        return 2;
+    }
+
+    public static int buff_SamuraiBuff(int dmg)
     {
         System.Random random = new System.Random();
+        random.NextDouble();
+        random.NextDouble();
         double temp = random.NextDouble();
-        if (temp >= 0.5)
+        if (temp >= 0.9)
         {
-            Debug.Log("跳过敌方回合");
-            return true;
+            return 0;
         }
+        return dmg;
+    }
 
-        return false;
+    public static int buff_SamuraiRound(int dmg)
+    {
+        return dmg * 3;
+    }
+
+
+    public static bool buff_PerTreasure_Rare()
+    {
+        return true;
     }
 
 }

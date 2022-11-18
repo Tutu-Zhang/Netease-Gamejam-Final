@@ -146,66 +146,80 @@ public class Enemy : MonoBehaviour
             Defend = 0;
     }
 
+    //受到真实伤害
+    public void ThroughHited(int val)
+    {
+        ani.SetBool("isHitted", true);
+        Invoke("SetisHittedToFalse", 0.3f);
+
+        int this_dmg = val;
+
+        CurHp -= this_dmg;
+        CheckIfDie();
+    }
+
     //受伤
     public void Hited(int val)
     {
         ani.SetBool("isHitted", true);
         Invoke("SetisHittedToFalse", 0.3f);
 
-
+        int this_dmg = val;
+   
         //先扣护盾
-        if (Defend >= val)
-        {
-            Defend -= val;
+        Defend -= this_dmg;
+        UpdateDefend();
 
-            //受伤动画
-            //ani.SetBool("isHitted", true);
-            UpdateDefend();
-        }
-        else //再扣血量
+        if (Defend < 0)  //再扣血量
         {
-            val = val - Defend;
+            this_dmg = -Defend;
             Defend = 0;
-            CurHp -= val;
-            if (CurHp <= 0 )
+            UpdateDefend();
+            CurHp -= this_dmg;       
+        }
+
+        CheckIfDie();
+    }
+
+    private void CheckIfDie()
+    {
+        if (CurHp <= 0)
+        {
+            //第四关boss有三条命
+            if (LevelManager.Instance.level == 4 && Lv4BossLives > 0)
             {
-                //第四关boss有三条命
-                if (LevelManager.Instance.level == 4 && Lv4BossLives > 0)
-                {
-                    CurHp = 1;
-                    Defend += 100;
-                    AudioManager.Instance.PlayEffect("护甲");
-                    Lv4BossLives -= 1;
+                CurHp = 1;
+                Defend += 100;
+                AudioManager.Instance.PlayEffect("护甲");
+                Lv4BossLives -= 1;
 
-                    UpdateHp();
-                    UpdateDefend();
-                    ifLv4BossConsumeLives = true;
-                }
-                else
-                {
-                    CurHp = 0;
-
-
-                    //敌人从列表中移除
-                    EnemyManager.Instance.DeleteEnemy(this);
-
-                    //删除敌人的模型
-                    Destroy(gameObject);
-                    Destroy(actionObj);
-                    Destroy(hpItemObj);
-                }
-
+                UpdateHp();
+                UpdateDefend();
+                ifLv4BossConsumeLives = true;
             }
             else
             {
-                ani.SetBool("isHitted", true);               
+                CurHp = 0;
+
+
+                //敌人从列表中移除
+                EnemyManager.Instance.DeleteEnemy(this);
+
+                //删除敌人的模型
+                Destroy(gameObject);
+                Destroy(actionObj);
+                Destroy(hpItemObj);
             }
 
-            //刷新血量等UI
-            UpdateDefend();
-            UpdateHp();
         }
-        
+        else
+        {
+            ani.SetBool("isHitted", true);
+        }
+
+        //刷新血量等UI
+        UpdateDefend();
+        UpdateHp();
     }
 
     //用于延迟触发

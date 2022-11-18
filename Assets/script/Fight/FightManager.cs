@@ -91,13 +91,26 @@ public class FightManager : MonoBehaviour
     {
         int this_hit = hit + LevelManager.Instance.AttackFix;
 
+        //苦修宝物Buff
+        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("MonkBuff", SkillLevel.LEGENDARY) != null)
+        {
+            this_hit += BuffEffects.buff_MonkBuff();
+        }
+        
+        //011减伤免伤buff
         if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("011") != null)
         {
             this_hit = BuffEffects.buff_Defend_011(this_hit, UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("011").GetBuffLevel());
         }
 
-        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("110") != null 
-            && UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("110").GetBuffLevel() == SkillLevel.MONK)
+        //武士宝物buff
+        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("SamuraiBuff", SkillLevel.LEGENDARY) != null)
+        {
+            this_hit = BuffEffects.buff_SamuraiBuff(this_hit);
+        }
+
+        //苦修110牌
+        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("110", SkillLevel.MONK) != null)
         {
             BuffEffects.buff_counter_110(this_hit, SkillLevel.MONK);
         }
@@ -133,14 +146,19 @@ public class FightManager : MonoBehaviour
 
     public void GetRecover(int recover)
     {
-        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("001") != null 
-            && UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("001").GetBuffLevel() == SkillLevel.LEGENDARY)
+        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("001", SkillLevel.LEGENDARY) != null)
         { recover *= 2; }
 
         AudioManager.Instance.PlayEffect("回复");
         CurHP += recover;
-        if (CurHP > MaxHP)
-            CurHP = MaxHP;
+
+        if (CurHP > MaxHP) {
+            if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("BuffTreasure", SkillLevel.EPIC) != null)
+            {
+                Attack_Enemy(BuffEffects.buff_BuffTreasure(SkillLevel.EPIC));
+            }
+                CurHP = MaxHP; 
+        }
 
         UIManager.Instance.GetUI<FightUI>("fightBackground").UpdateHP();
         UIManager.Instance.GetUI<FightUI>("fightBackground").UpdateDef();
@@ -148,19 +166,25 @@ public class FightManager : MonoBehaviour
 
     public void GetDefendRecover(int recover)
     {
-        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("001") != null
-        && UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("001").GetBuffLevel() == SkillLevel.LEGENDARY)
+        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("001", SkillLevel.LEGENDARY) != null)
         { recover *= 2; }
 
-        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("011") != null
-        && UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("011").GetBuffLevel() == SkillLevel.SAMURAI)
+        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("011", SkillLevel.SAMURAI) != null)
         {
             Attack_Enemy(recover * 2);
             AudioManager.Instance.PlayEffect("玩家攻击");
             return;
         }
+        //圣骑士宝物Buff
+        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("PaladinBuff", SkillLevel.LEGENDARY) != null)
+        {
+            for (int i = 0; i < recover; i++) { 
+                BuffEffects.PaladinBuffCount += 1;
+                BuffEffects.buff_PaladinBuff();
+            }
+        }
 
-            AudioManager.Instance.PlayEffect("护甲");
+        AudioManager.Instance.PlayEffect("护甲");
         DefCount += recover;
 
         UIManager.Instance.GetUI<FightUI>("fightBackground").UpdateHP();
@@ -194,18 +218,44 @@ public class FightManager : MonoBehaviour
 
         int this_dmg = val;
 
-        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("110") != null 
-            && UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("110").GetBuffLevel() == SkillLevel.SAMURAI)
+        //苦修宝物buff
+        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("MonkBuff", SkillLevel.LEGENDARY) != null)
         {
-            this_dmg *= 3;
-            UIManager.Instance.GetUI<FightUI>("fightBackground").RemoveBuff(UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("110"));
+            this_dmg += BuffEffects.buff_MonkBuff();
         }
-
-        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("111") != null
-        && UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("111").GetBuffLevel() == SkillLevel.LEGENDARY)
+        //稀有buff类宝物
+        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("BuffTreasure", SkillLevel.RARE) != null)
+        {
+            this_dmg += BuffEffects.buff_BuffTreasure(SkillLevel.RARE);
+        }
+        //武士技能
+        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("SamuraiSkill") != null)
+        {
+            this_dmg += BuffEffects.buff_Samurai_skill(UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("SamuraiSkill").GetBuffLevel());
+            UIManager.Instance.GetUI<FightUI>("fightBackground").RemoveBuff(UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("SamuraiSkill"));
+        }
+        //武士110
+        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("110", SkillLevel.SAMURAI) != null)
+        {
+            this_dmg = BuffEffects.buff_counter_110(this_dmg, SkillLevel.SAMURAI);
+            UIManager.Instance.GetUI<FightUI>("fightBackground").RemoveBuff(UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("110", SkillLevel.SAMURAI));
+        }
+        //武士3回合宝物
+        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("SamuraiRound", SkillLevel.LEGENDARY) != null)
+        {
+            this_dmg = BuffEffects.buff_SamuraiRound(this_dmg);
+            UIManager.Instance.GetUI<FightUI>("fightBackground").RemoveBuff(UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("SamuraiRound", SkillLevel.LEGENDARY));
+        }
+        //传奇111
+        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("111", SkillLevel.LEGENDARY) != null)
         {
             this_dmg = BuffEffects.buff_legend_111(this_dmg);
-            UIManager.Instance.GetUI<FightUI>("fightBackground").RemoveBuff(UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuff("110"));
+        }
+        //武士PergameBuff, 此buff没有写在BuffEffects文件中
+        if (UIManager.Instance.GetUI<FightUI>("fightBackground").FindBuffWithLvl("SamuraiPergame", SkillLevel.LEGENDARY) != null)
+        {
+            EnemyManager.Instance.GetEnemy(0).ThroughHited(this_dmg);
+            return;
         }
 
 
