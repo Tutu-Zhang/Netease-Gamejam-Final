@@ -28,7 +28,7 @@ public class RoleManager : MonoBehaviour
     private List<TreasureItem> Treasures;
     private TreasureItem Treasure_1, Treasure_2;//1是公共，2是职业
 
-    public void Awake()
+    public void Start()
     {
         Instance = this;
         PlayerProfession = Professions.NONE;
