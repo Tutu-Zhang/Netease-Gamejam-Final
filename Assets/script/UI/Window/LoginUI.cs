@@ -20,7 +20,7 @@ public class LoginUI : UIBase
         if (!AudioManager.Instance.isPlayingBeginBGM)
         {
             Debug.Log("LoginUI播放BGM");
-            AudioManager.Instance.PlayBGM("开场BGM");
+            AudioManager.Instance.PlayBGM("beginBGM-Changes-fiftysounds");
         }
 
     }
@@ -29,7 +29,7 @@ public class LoginUI : UIBase
     {
 
         AudioManager.Instance.PlayEffect("按钮");
-        Debug.Log("lv0: " + PlayerPrefs.GetString("lv0Passed"));
+        //Debug.Log("lv0: " + PlayerPrefs.GetString("lv0Passed"));
 
         if (PlayerPrefs.GetString("lv0Passed") == "no")
         {
@@ -40,7 +40,7 @@ public class LoginUI : UIBase
         else
         {
             //跳转到关卡选择场景
-            SceneManager.LoadScene("selectScene");
+            SceneManager.LoadScene("selectPerfossionScene");
         }
 
     }

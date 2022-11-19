@@ -17,6 +17,7 @@ TagManager:
   - LoseGTS
   - Enemy
   - EnemyActionText
+  - Description
   layers:
   - Default
   - TransparentFX

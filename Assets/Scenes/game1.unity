@@ -1046,7 +1046,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d8761dd625f1e64d8fa14c023cee759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cardList: []
 --- !u!1001 &1191220531
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2301,7 +2300,7 @@ PrefabInstance:
     - target: {fileID: 1904753138013071342, guid: 9833ac5127a62554c8a3e94e975bca8a, type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: f1faec90313b08245877f8fff94af2cf, type: 3}
+      objectReference: {fileID: 21300000, guid: 40ff3fdd8de02d647ade24f5230ec19f, type: 3}
     - target: {fileID: 1904753138013071342, guid: 9833ac5127a62554c8a3e94e975bca8a, type: 3}
       propertyPath: m_Enabled
       value: 1

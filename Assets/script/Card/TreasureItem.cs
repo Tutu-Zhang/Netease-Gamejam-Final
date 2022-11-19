@@ -6,7 +6,7 @@ using DG.Tweening;
 using UnityEngine.EventSystems;
 
 //宝物稀有度
-public enum TreasureLevel {RARE, EPIC, LEGEND }
+public enum TreasureLevel {RARE, EPIC, LEGEND}
 
 //宝物的种类
 public enum TreasureCategory {BUFF, ROUND, PERGAME}
@@ -24,7 +24,7 @@ public class TreasureItem
     //不为general时，宝物的稀有度没有意义，此时通过职业和种类就可确定一个宝物
 
     public bool Ifready = true;//这个代表宝物是否可用
-    public bool IfUnlock = false;//这个代表是否解锁
+    public bool IfUnlock = true;//这个代表是否解锁
     private int PrepareTime = 0;//这个代表还有几回合可用
 
 

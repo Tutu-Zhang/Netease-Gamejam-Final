@@ -36,8 +36,8 @@ public class FightManager : MonoBehaviour
 
     public void Init()//玩家起始数据
     {
-        MaxHP = 15;
-        CurHP = 15;
+        MaxHP = 20;
+        CurHP = 20;
         DefCount = 10;
         TurnCount = 0;
 

@@ -11,7 +11,7 @@ public class ExcelReader : MonoBehaviour
 
     public void Awake()
     {
-
+        Instance = this;
     }
 
     //根据位置获取对应内容
@@ -52,5 +52,21 @@ public class ExcelReader : MonoBehaviour
             str = "ExcelReader读取文件时有传入正确的参数";
         }
         return str;
+    }
+
+    //输入横纵坐标和文件名，读取对应信息
+    public string GetProfessionDes(int x,int y,string str)
+    {
+        
+        string Des = "";
+        FileStream ProfessionDesStream = File.Open(Application.streamingAssetsPath + "/"+str+".xlsx", FileMode.Open, FileAccess.Read, FileShare.Read);
+        
+        IExcelDataReader ProfessionDesExcelReader = ExcelReaderFactory.CreateOpenXmlReader(ProfessionDesStream);//读取 2007及以后的版本
+
+        DataSet ProfessionDesResult = ProfessionDesExcelReader.AsDataSet();
+
+        Des = ProfessionDesResult.Tables[0].Rows[x][y].ToString();
+
+        return Des;
     }
 }

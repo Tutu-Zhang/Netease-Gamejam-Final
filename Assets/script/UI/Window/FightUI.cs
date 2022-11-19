@@ -104,11 +104,17 @@ public class FightUI : UIBase
             }
             Debug.Log(cardId);
 
+            if (GetSpecialSkillLevel(cardId) != SkillLevel.NONE)
+            {
+                CardEffects.MatchCard(cardId, GetSpecialSkillLevel(cardId)); //Matchcard顺便就执行卡的效果
+                StartCoroutine(UseCardEffects(cardId));
+                BuffDescription.GetComponent<BuffDescription>().RefreshBuffText();
+            }
+            else
+            {
+                Debug.Log("卡牌尚未解锁");
+            }
 
-            CardEffects.MatchCard(cardId, GetSpecialSkillLevel(cardId)); //Matchcard顺便就执行卡的效果
-
-           StartCoroutine(UseCardEffects(cardId));
-            BuffDescription.GetComponent<BuffDescription>().RefreshBuffText();
         }
     }
 

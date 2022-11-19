@@ -25,7 +25,7 @@ public class FightCardManager
 
         System.Random random = new System.Random();
         
-        while (cardList.Count<8)
+        while (cardList.Count<6)
         {
             string num = "0";
             double temp = random.NextDouble();
@@ -45,7 +45,7 @@ public class FightCardManager
         System.Random random = new System.Random();
 
 
-        while (cardList.Count < 4)
+        while (cardList.Count < 3)
         {
             string num = "0";
             double temp = random.NextDouble();
@@ -53,7 +53,7 @@ public class FightCardManager
             {
                 num = "1";
             }
-            cardList.Add(num);//牌库，现在是没牌印4张牌，因为unity自带的random并非真随机，如果印一张抽一张很容易出现全1或者全0
+            cardList.Add(num);//牌库，现在是没牌印3张牌，因为unity自带的random并非真随机，如果印一张抽一张很容易出现全1或者全0
             //Debug.Log("本次印牌为" + num + ",抽卡概率为" + card_probability);
         }
 

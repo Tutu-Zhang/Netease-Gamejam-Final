@@ -39,7 +39,7 @@ public class AudioManager : MonoBehaviour
 
         bgmSource.Play();
 
-        if (name == "¿ª³¡BGM")
+        if (name == "beginBGM-Changes-fiftysounds")
         {
             isPlayingBeginBGM = true;
         }
