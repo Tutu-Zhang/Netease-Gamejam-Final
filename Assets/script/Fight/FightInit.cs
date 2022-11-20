@@ -118,15 +118,6 @@ public class FightInit : FightUnit
         FightManager.Instance.ChangeType(FightType.Player);
     }
 
-    public void SetTreasure()
-    {
-        GameObject Treasure1;
-        GameObject Treasure2;
-
-        Treasure1 = GameObject.Find("±¦Îï1").GetComponent<Button>().onClick.AddListener(() => {
-            RoleManager.Instance.GetTreasure(1).
-        }); 
-    }
 
 
 

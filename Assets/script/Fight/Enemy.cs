@@ -37,8 +37,6 @@ public class Enemy : MonoBehaviour
     public int Attack;
     public int MaxHp;
     public int CurHp;
-    public int Lv4BossLives;
-    public bool ifLv4BossConsumeLives;
 
     //组件相关
     SkinnedMeshRenderer _meshRenderer;
@@ -47,8 +45,7 @@ public class Enemy : MonoBehaviour
     public void Init(Dictionary<string,string> data)
     {
         this.data = data;
-        Lv4BossLives = 2;
-        ifLv4BossConsumeLives = false;
+
     }
 
     void Start()
@@ -185,20 +182,7 @@ public class Enemy : MonoBehaviour
     {
         if (CurHp <= 0)
         {
-            //第四关boss有三条命
-            if (LevelManager.Instance.level == 4 && Lv4BossLives > 0)
-            {
-                CurHp = 1;
-                Defend += 100;
-                AudioManager.Instance.PlayEffect("护甲");
-                Lv4BossLives -= 1;
 
-                UpdateHp();
-                UpdateDefend();
-                ifLv4BossConsumeLives = true;
-            }
-            else
-            {
                 CurHp = 0;
 
 
@@ -209,7 +193,7 @@ public class Enemy : MonoBehaviour
                 Destroy(gameObject);
                 Destroy(actionObj);
                 Destroy(hpItemObj);
-            }
+            
 
         }
         else
@@ -253,9 +237,6 @@ public class Enemy : MonoBehaviour
                     break;
                 case 3:
                     yield return EnemySkill.Instance.EnemyActio3(this, type);
-                    break;
-                case 4:
-                    yield return EnemySkill.Instance.EnemyActio4(this, type);
                     break;
             }
         }

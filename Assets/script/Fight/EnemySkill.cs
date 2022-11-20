@@ -12,13 +12,13 @@ public class EnemySkill : MonoBehaviour
     
     private int boss1_HpLowerThan10TurnCount = 0;
 
-    //赛博猎犬：没有任何特殊技能
+    //大头鲸
     public IEnumerator EnemyActio0(Enemy enemyInstance, ActionType typeIn)
     {
         //获取动画控件
         GameObject enemy = GameObject.Find("EnemyWaiting(Clone)");
         ani = enemy.GetComponent<Animator>();
-
+        ShowEnemyActionText(enemyInstance, typeIn);
         //等待一段时间后执行行为
         yield return new WaitForSeconds(0.5f);//等待0.5秒
 
@@ -29,14 +29,6 @@ public class EnemySkill : MonoBehaviour
                 break;
 
             case ActionType.Defend:
-                enemyInstance.Defend += 5 + LevelManager.Instance.DefFix;
-                AudioManager.Instance.PlayEffect("护甲");
-                enemyInstance.UpdateDefend();
-                break;
-
-            case ActionType.Attack:
-                Debug.Log("敌人行动");
-                ani.SetBool("isAttacking", true);
                 //等待攻击动画播放完，这里时间也可以配置
                 yield return new WaitForSeconds(1);
                 AudioManager.Instance.PlayEffect("概率成功2");
@@ -44,7 +36,16 @@ public class EnemySkill : MonoBehaviour
                 Camera.main.DOShakePosition(0.1f, 1f, 5, 45);
                 //玩家扣血
                 FightManager.Instance.GetPlayHit(enemyInstance.Attack);
-                ani.SetBool("isAttacking", false);
+                break;
+
+            case ActionType.Attack:
+                //等待攻击动画播放完，这里时间也可以配置
+                yield return new WaitForSeconds(1);
+                AudioManager.Instance.PlayEffect("概率成功2");
+                //摄像机抖动
+                Camera.main.DOShakePosition(0.1f, 1f, 5, 45);
+                //玩家扣血
+                FightManager.Instance.GetPlayHit(enemyInstance.Attack);
                 break;
         }
 
@@ -238,132 +239,7 @@ public class EnemySkill : MonoBehaviour
 
     //天使：若天使护甲值不为0，造成固定伤害；若护甲值为0，且玩家血量>1，则将玩家打到1点血；若玩家血量=1，则造成固定伤害（击杀玩家
     //当天使生命值降为0时，获得100点护甲，并在下回合恢复20生命值20护甲值。天使有4条命（也可能是5条，记不清了
-    public IEnumerator EnemyActio4(Enemy enemyInstance, ActionType typeIn)
-    {
-        //获取敌人动画控件
-        GameObject enemy = GameObject.Find("EnemyWaiting(Clone)");
-        ani = enemy.GetComponent<Animator>();
-
-        GameObject fire1 = GameObject.Find("/Canvas/天使攻击/巨炮待机");
-        Animator fire1Ani = fire1.GetComponent<Animator>();
-        Debug.Log(fire1Ani.name);
-
-        GameObject fire2 = GameObject.Find("/Canvas/天使攻击/六炮待机");
-        Animator fire2Ani = fire2.GetComponent<Animator>();
-        Debug.Log(fire2Ani.name);
-
-        System.Random random = new System.Random();
-        double temp = random.NextDouble();
-
-        if (temp >0.2)
-        {
-            typeIn = ActionType.Attack;
-        }
-        else
-        {
-            typeIn = ActionType.Defend;
-        }
-
-        //等待一段时间后执行行为
-        yield return new WaitForSeconds(0.5f);//等待0.5秒
-
-        //显示敌人行为 不执行？
-        ShowEnemyActionText(enemyInstance, typeIn);
-
-        Debug.Log(enemyInstance.ifLv4BossConsumeLives);
-        //判断是否消耗生命 不执行？
-        if (enemyInstance.ifLv4BossConsumeLives)
-        {
-            Debug.Log("判断天使是否消耗生命");
-            enemyInstance.Defend -= 80;
-            if (enemyInstance.Defend < 20)
-            {
-                enemyInstance.Defend = 20;
-            }
-            enemyInstance.CurHp += enemyInstance.MaxHp;
-            enemyInstance.UpdateDefend();
-            enemyInstance.UpdateHp();
-
-            enemyInstance.ifLv4BossConsumeLives = false;
-            typeIn = ActionType.None;
-            yield return new WaitForSeconds(1);
-        }
-
-        switch (typeIn)
-        {
-            case ActionType.None:
-
-                break;
-            case ActionType.Defend:
-                enemyInstance.Defend += 5 + LevelManager.Instance.DefFix;
-                enemyInstance.CurHp += 5;
-
-                AudioManager.Instance.PlayEffect("护甲");
-                enemyInstance.UpdateDefend();
-                enemyInstance.UpdateHp();
-                break;
-
-            case ActionType.Attack:
-                yield return new WaitForSeconds(1);
-                
-
-                if (enemyInstance.Defend > 0)
-                {
-                    fire1.SetActive(true);
-                    fire1Ani.SetBool("isAttacking", true);
-                    AudioManager.Instance.PlayEffect("天使激光");
-                    yield return new WaitForSeconds(1.2f);
-                    //摄像机抖动
-                    Camera.main.DOShakePosition(0.1f, 1.2f, 5, 45);
-                    //玩家扣血
-                    FightManager.Instance.GetPlayHit(enemyInstance.Attack);
-                    fire1.SetActive(false);
-                }
-                else
-                {
-                    if (FightManager.Instance.CurHP > 1)
-                    {
-                        int ran = Random.Range(0, 1);
-
-                        if (ran > 0.2)
-                        {
-                            fire2.SetActive(true);
-                            fire2Ani.SetBool("isAttacking", true);
-                            AudioManager.Instance.PlayEffect("天使大激光");
-                            yield return new WaitForSeconds(1f);
-                            //摄像机抖动
-                            Camera.main.DOShakePosition(0.1f, 1.5f, 5, 45);
-                            FightManager.Instance.GetPlayHit(FightManager.Instance.CurHP + FightManager.Instance.DefCount - 1);
-                            fire2.SetActive(false);
-                        }
-                        else
-                        {
-                            fire2.SetActive(true);
-                            fire2Ani.SetBool("isAttacking", true);
-                            yield return new WaitForSeconds(1f);
-                            //摄像机抖动
-                            Camera.main.DOShakePosition(0.1f, 1.5f, 5, 45);
-                            FightManager.Instance.GetPlayHit(enemyInstance.Attack);
-                            fire2.SetActive(false);
-                        }
-                    }
-                    else
-                    {
-                        fire2.SetActive(true);
-                        fire2Ani.SetBool("isAttacking", true);
-                        AudioManager.Instance.PlayEffect("天使大激光");
-                        yield return new WaitForSeconds(1f);
-                        //摄像机抖动
-                        Camera.main.DOShakePosition(0.1f, 1.5f, 5, 45);
-                        FightManager.Instance.GetPlayHit(enemyInstance.Attack);
-                        fire2.SetActive(false);
-                    }
-                }
-                break;
-        }
-
-        HideEnemyActionText();
-    }
+    
 
     public void ShowEnemyActionText(Enemy enemyInstance,ActionType TypeIn)
     {
