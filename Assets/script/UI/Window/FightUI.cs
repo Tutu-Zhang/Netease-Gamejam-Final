@@ -27,7 +27,9 @@ public class FightUI : UIBase
     private List<CardItem> PlayCardList; //出牌区集合
     private List<BuffItem> BuffList; //牌局中Buff集合，由于不存在玩家对打，所以敌人buff和自己的buff都在里面
 
-    Button turnBtn, UseBtn;
+    Button turnBtn, UseBtn, SklBtn, TBtn1, TBtn2;
+
+    public bool SkillUsed = false;
     private void Awake()
     {
         cardItemList = new List<CardItem>();
@@ -58,15 +60,27 @@ public class FightUI : UIBase
         UseBtn = GameObject.Find("UseBtn").GetComponent<Button>();
         UseBtn.gameObject.SetActive(false);
 
+        SklBtn = GameObject.Find("技能").GetComponent<Button>();
+        TBtn1 = GameObject.Find("宝物1").GetComponent<Button>();
+        TBtn2 = GameObject.Find("宝物2").GetComponent<Button>();
+
         //获取回合切换按钮
         turnBtn.onClick.AddListener(onChangeTurnBtn);
         //获取出牌按钮
         UseBtn.onClick.AddListener(UseCard);
+        //获取技能按钮并添加委托
+        SklBtn.onClick.AddListener(UseSkill);
+
+        TBtn1.onClick.AddListener(UseTreasure1);
+        TBtn2.onClick.AddListener(UseTreasure2);
 
         UpdateHP();
         UpdateDef();
 
         Debug.Log(RoleManager.Instance.GetProfession());
+
+        RoleManager.Instance.GetTreasure(1).SetTreasureAble();
+        RoleManager.Instance.GetTreasure(2).SetTreasureAble();
         //UpdateCardCount();
         //UpdateUsedCardCount();
         //UpdatePower();
@@ -91,6 +105,50 @@ public class FightUI : UIBase
         Debug.Log("回合切换");
     }
 
+    private void UseTreasure1()
+    {
+        if (FightManager.Instance.fightUnit is FightPlayerTurn)
+        {
+            if(RoleManager.Instance.GetTreasure(1) == null)
+            {
+                Debug.Log("宝物1不存在");
+                return;
+            }
+
+            if (RoleManager.Instance.GetTreasure(1).IfReady())
+            {
+                RoleManager.Instance.GetTreasure(1).UseTreasure();
+            }
+            else
+            {
+                Debug.Log("宝物1未准备好或不存在");
+            }
+
+        }
+    }
+
+    private void UseTreasure2()
+    {
+        if (FightManager.Instance.fightUnit is FightPlayerTurn)
+        {
+            if (RoleManager.Instance.GetTreasure(2) == null)
+            {
+                Debug.Log("宝物2不存在");
+                return;
+            }
+
+            if (RoleManager.Instance.GetTreasure(2).IfReady())
+            {
+                RoleManager.Instance.GetTreasure(2).UseTreasure();
+            }
+            else
+            {
+                Debug.Log("宝物2未准备好或不存在");
+            }
+
+        }
+    }
+
     //打出卡
     private void UseCard()
     {
@@ -113,6 +171,31 @@ public class FightUI : UIBase
             else
             {
                 Debug.Log("卡牌尚未解锁");
+            }
+
+        }
+    }
+
+    //用出技能
+    private void UseSkill()
+    {
+        AudioManager.Instance.PlayEffect("按钮2");
+        if (FightManager.Instance.fightUnit is FightPlayerTurn)
+        {
+            if(SkillUsed == true)
+            {
+                return;
+            }
+
+            if (RoleManager.Instance.GetProSkillLvl() != SkillLevel.NONE && RoleManager.Instance.GetProfession() != Professions.NONE)
+            {
+                PlayerSkill.MatchSkill(RoleManager.Instance.GetProfession(), RoleManager.Instance.GetProSkillLvl()); //Matchcard顺便就执行卡的效果
+                BuffDescription.GetComponent<BuffDescription>().RefreshBuffText();
+                SkillUsed = true;
+            }
+            else
+            {
+                Debug.Log("无技能");
             }
 
         }

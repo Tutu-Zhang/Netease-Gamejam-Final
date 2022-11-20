@@ -43,6 +43,11 @@ public class TreasureItem
             Ifready = true;
     }
 
+    public bool IfReady()
+    {
+        return Ifready;
+    }
+
     //每次使用宝物都要调用一次此函数
     public void UseTreasure()
     {

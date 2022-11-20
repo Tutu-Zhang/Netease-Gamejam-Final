@@ -26,7 +26,7 @@ public class FightPlayerTurn : FightUnit
             }
             UIManager.Instance.GetUI<FightUI>("fightBackground").BuffPassTurn();
             UIManager.Instance.GetUI<FightUI>("fightBackground").TreasurePassTurn();
-
+            UIManager.Instance.GetUI<FightUI>("fightBackground").SkillUsed = false;
 
             //≥È≈∆
 
