@@ -692,6 +692,7 @@ MonoBehaviour:
   AttackFix: 0
   DefFix: 0
   diffCount: 0
+  MaxHpFix: 0
 --- !u!114 &481018698
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2718,7 +2719,7 @@ GameObject:
   - component: {fileID: 2123312896}
   m_Layer: 0
   m_Name: RoleManager
-  m_TagString: Untagged
+  m_TagString: RoleManager
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2735,6 +2736,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8d8761dd625f1e64d8fa14c023cee759, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  PlayerProfession: 0
+  ProfessionSkillLevel: 0
 --- !u!114 &2123312897
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2744,7 +2747,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2123312895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ea08762aad263444da9cb4598a0f16f5, type: 3}
+  m_Script: {fileID: 11500000, guid: 2899aae8a006bef489056c26f1ce2476, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &2123312898

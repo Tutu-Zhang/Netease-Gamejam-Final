@@ -12,6 +12,8 @@ public class LevelManager : MonoBehaviour
     public int DefFix;
     public float diffCount;
 
+    public int MaxHpFix = 0;//用于调整玩家最大血量上限
+
     private void Awake()
     {
         Debug.Log("LevelManager启动");

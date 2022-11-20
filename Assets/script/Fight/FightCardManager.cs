@@ -6,8 +6,8 @@ public class FightCardManager
 {
     public static FightCardManager Instance = new FightCardManager();
     //以下两个的数值为抽到0的概率, 名称代表抽到1的概率的大小
-    private static float CARD_PROBABILITY_LOW = 0.75f;
-    private static float CARD_PROBABILITY_HIGH = 0.25f;
+    private static float CARD_PROBABILITY_LOW = 0.6f;
+    private static float CARD_PROBABILITY_HIGH = 0.4f;
     public float card_probability;
 
     public List<string> cardList;//牌堆里的牌，也就是不在玩家手里的牌

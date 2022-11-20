@@ -14,8 +14,10 @@ public class DescriptionManager : MonoBehaviour
 
     //从0，1，2到000，001，010
     public Dictionary<int, string> NumToPair;
+    public Dictionary<string, int> PairToNum;
     //从0，1，2到NONE，NORMAL,RARE
     public Dictionary<int, SkillLevel> NumToSkillLevel;
+    public Dictionary<SkillLevel, int> SkillLevelToNum;
 
     //从0，1，2到RARE, EPIC, LEGEND（稀有度
     public Dictionary<int, TreasureLevel> NumToTLevel;
@@ -69,6 +71,18 @@ public class DescriptionManager : MonoBehaviour
             {7,"111" }
         };
 
+        PairToNum = new Dictionary<string, int>
+        {
+            {"000",0 },
+            {"001",1 },
+            {"010",2 },
+            {"011",3 },
+            {"100",4 },
+            {"101",5 },
+            {"110",6 },
+            {"111",7 }
+        };
+
         NumToSkillLevel = new Dictionary<int, SkillLevel>
         {
             {0,SkillLevel.NONE },
@@ -79,6 +93,18 @@ public class DescriptionManager : MonoBehaviour
             {5,SkillLevel.PALADIN },
             {6,SkillLevel.MONK },
             {7,SkillLevel.SAMURAI }
+        };
+
+        SkillLevelToNum = new Dictionary<SkillLevel, int>
+        {
+            {SkillLevel.NONE, 0},
+            {SkillLevel.NORMAL, 1},
+            {SkillLevel.RARE, 2},
+            {SkillLevel.EPIC, 3},
+            {SkillLevel.LEGENDARY,4},
+            {SkillLevel.PALADIN, 5},
+            {SkillLevel.MONK,6 },
+            {SkillLevel.SAMURAI, 7}
         };
     }
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 //卡牌战斗初始化
 public class FightInit : FightUnit
 {
@@ -62,12 +63,71 @@ public class FightInit : FightUnit
                 if (AudioManager.Instance != null)
                     AudioManager.Instance.PlayBGM("最后一关");
                 break;
+            case 5:
+                EnemyManager.Instance.loadRes("10004");
+                //播放战斗bgm，这里只需要输入bgm的名字就可以
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayBGM("最后一关");
+                break;
+            case 6:
+                EnemyManager.Instance.loadRes("10004");
+                //播放战斗bgm，这里只需要输入bgm的名字就可以
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayBGM("最后一关");
+                break;
+            case 7:
+                EnemyManager.Instance.loadRes("10004");
+                //播放战斗bgm，这里只需要输入bgm的名字就可以
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayBGM("最后一关");
+                break;
+            case 8:
+                EnemyManager.Instance.loadRes("10004");
+                //播放战斗bgm，这里只需要输入bgm的名字就可以
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayBGM("最后一关");
+                break;
+            case 9:
+                EnemyManager.Instance.loadRes("10004");
+                //播放战斗bgm，这里只需要输入bgm的名字就可以
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayBGM("最后一关");
+                break;
+            case 10:
+                EnemyManager.Instance.loadRes("10004");
+                //播放战斗bgm，这里只需要输入bgm的名字就可以
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayBGM("最后一关");
+                break;
+            case 11:
+                EnemyManager.Instance.loadRes("10004");
+                //播放战斗bgm，这里只需要输入bgm的名字就可以
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayBGM("最后一关");
+                break;
+            case 12:
+                EnemyManager.Instance.loadRes("10004");
+                //播放战斗bgm，这里只需要输入bgm的名字就可以
+                if (AudioManager.Instance != null)
+                    AudioManager.Instance.PlayBGM("最后一关");
+                break;
         }
 
 
         //切换到玩家回合
         FightManager.Instance.ChangeType(FightType.Player);
     }
+
+    public void SetTreasure()
+    {
+        GameObject Treasure1;
+        GameObject Treasure2;
+
+        Treasure1 = GameObject.Find("宝物1").GetComponent<Button>().onClick.AddListener(() => {
+            RoleManager.Instance.GetTreasure(1).
+        }); 
+    }
+
 
 
 

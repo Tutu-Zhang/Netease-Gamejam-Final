@@ -161,7 +161,7 @@ public class CardEffects
         switch (level)
         {
             case SkillLevel.NORMAL:
-                FightManager.Instance.Attack_Enemy(4);
+                FightManager.Instance.Attack_Enemy(400);//µ˜ ‘”√
                 break;
 
             case SkillLevel.RARE:

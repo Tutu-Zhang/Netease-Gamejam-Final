@@ -14,10 +14,13 @@ public class MissionUI : MonoBehaviour
     void Start()
     {
         GoToNext.onClick.AddListener(gotoNext);
+
+
+        Debug.Log(RoleManager.Instance.GetProfession());
     }
 
     public void gotoNext()
     {
-        SceneManager.LoadScene("winSelect");//直接进入选宝界面。调试用
+        SceneManager.LoadScene("game1");//直接进入选宝界面。调试用
     }
 }

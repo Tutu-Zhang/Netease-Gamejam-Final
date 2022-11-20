@@ -36,8 +36,8 @@ public class FightManager : MonoBehaviour
 
     public void Init()//玩家起始数据
     {
-        MaxHP = 20;
-        CurHP = 20;
+        MaxHP = 20 + LevelManager.Instance.MaxHpFix * 10;//根据提升血量上限的次数（MaxHpFix）调整血量
+        CurHP = 20 + LevelManager.Instance.MaxHpFix * 10; ;
         DefCount = 10;
         TurnCount = 0;
 

@@ -29,11 +29,11 @@ public class BuffDescription : MonoBehaviour, IPointerClickHandler
 
         if (ifshow)
         {
-            ShowBuffText();
+            //ShowBuffText();
         }
         else
         {
-            HideBuffText();
+            //HideBuffText();
         }
         
     }
@@ -80,7 +80,7 @@ public class BuffDescription : MonoBehaviour, IPointerClickHandler
             }
             else
             {
-                buffText += bufflist[i].GetBuffId() + ":" + BuffDesData[bufflist[i].GetBuffId()] + ",剩余" + bufflist[i].GetLeftTime() + "回合" + "\n\n";
+                buffText += bufflist[i].GetBuffId() + ":" + BuffDesData[bufflist[i].GetBuffId()] + ",剩余" + bufflist[i].GetLeftTime() + "回合" + "\n\n";   
             }
         }
 

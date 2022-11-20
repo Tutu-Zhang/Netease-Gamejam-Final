@@ -16,12 +16,12 @@ public class RoleManager : MonoBehaviour
     //玩家的卡牌技能解锁信息
     private Dictionary<KeyValuePair<string, SkillLevel>, bool> PlayerCardStatus;
     //玩家当前选择的卡牌技能等级列表
-    private Dictionary<string, SkillLevel> PlayerCurrentLevels;
+    public Dictionary<string, SkillLevel> PlayerCurrentLevels;
 
 
     //玩家的当前职业和职业技能等级
-    public Professions PlayerProfession;
-    public SkillLevel ProfessionSkillLevel;//当前的职业技能等级
+    public Professions PlayerProfession = Professions.NONE;
+    public SkillLevel ProfessionSkillLevel = SkillLevel.NONE;//当前的职业技能等级
 
 
     //玩家的宝物库与解锁情况与当前选择的宝物
@@ -31,9 +31,9 @@ public class RoleManager : MonoBehaviour
     public void Start()
     {
         Instance = this;
-        PlayerProfession = Professions.NONE;
-        ProfessionSkillLevel = SkillLevel.NONE;
-        CardTreasureInit();
+        RoleManager.Instance.PlayerProfession = Professions.NONE;
+        RoleManager.Instance.ProfessionSkillLevel = SkillLevel.NONE;
+        RoleManager.Instance.CardTreasureInit();
     }
 
     //根据num获得玩家当前第num个宝物是哪个宝物
@@ -145,8 +145,13 @@ public class RoleManager : MonoBehaviour
         if (PlayerCardStatus[new KeyValuePair<string, SkillLevel>(Key, level)] == true)
         {
             PlayerCurrentLevels[Key] = level;
+            Debug.Log("技能等级设置成功");
         }
-        Debug.Log("技能等级设置成功");
+        else
+        {
+            Debug.Log("技能未解锁");
+        }
+
     }
 
 
@@ -177,6 +182,30 @@ public class RoleManager : MonoBehaviour
     {
         return PlayerCardStatus[new KeyValuePair<string, SkillLevel>(Key, level)];
     }
+
+    public bool GetProCardStatus(string Key, SkillLevel pro)
+    {
+        switch (pro)
+        {
+            case SkillLevel.PALADIN:
+                if (Key == "000" || Key == "001" || Key == "010" || Key == "100")
+                    return true;
+                break;
+
+            case SkillLevel.MONK:
+                if (Key == "011" || Key == "110" || Key == "010" || Key == "100")
+                    return true;
+                break;
+
+            case SkillLevel.SAMURAI:
+                if (Key == "011" || Key == "110" || Key == "101" || Key == "111")
+                    return true;
+                break;
+        }
+
+        return false;
+    }
+
     //初始化卡牌库与宝物库
     public void CardTreasureInit()
     {
@@ -191,8 +220,8 @@ public class RoleManager : MonoBehaviour
            {new KeyValuePair<string, SkillLevel>("000", SkillLevel.MONK) ,false},
            {new KeyValuePair<string, SkillLevel>("000", SkillLevel.SAMURAI) ,false},
 
-           {new KeyValuePair<string, SkillLevel>("001", SkillLevel.NONE) ,false},
-           {new KeyValuePair<string, SkillLevel>("001", SkillLevel.NORMAL) ,false},
+           {new KeyValuePair<string, SkillLevel>("001", SkillLevel.NONE) ,true},
+           {new KeyValuePair<string, SkillLevel>("001", SkillLevel.NORMAL) ,true},
            {new KeyValuePair<string, SkillLevel>("001", SkillLevel.RARE) ,false},
            {new KeyValuePair<string, SkillLevel>("001", SkillLevel.EPIC) ,false},
            {new KeyValuePair<string, SkillLevel>("001", SkillLevel.LEGENDARY) ,false},
@@ -200,8 +229,8 @@ public class RoleManager : MonoBehaviour
            {new KeyValuePair<string, SkillLevel>("001", SkillLevel.MONK) ,false},
            {new KeyValuePair<string, SkillLevel>("001", SkillLevel.SAMURAI) ,false},
 
-           {new KeyValuePair<string, SkillLevel>("010", SkillLevel.NONE) ,false},
-           {new KeyValuePair<string, SkillLevel>("010", SkillLevel.NORMAL) ,false},
+           {new KeyValuePair<string, SkillLevel>("010", SkillLevel.NONE) ,true},
+           {new KeyValuePair<string, SkillLevel>("010", SkillLevel.NORMAL) ,true},
            {new KeyValuePair<string, SkillLevel>("010", SkillLevel.RARE) ,false},
            {new KeyValuePair<string, SkillLevel>("010", SkillLevel.EPIC) ,false},
            {new KeyValuePair<string, SkillLevel>("010", SkillLevel.LEGENDARY) ,false},
@@ -227,8 +256,8 @@ public class RoleManager : MonoBehaviour
            {new KeyValuePair<string, SkillLevel>("100", SkillLevel.MONK) ,false},
            {new KeyValuePair<string, SkillLevel>("100", SkillLevel.SAMURAI) ,false},
 
-           {new KeyValuePair<string, SkillLevel>("101", SkillLevel.NONE) ,false},
-           {new KeyValuePair<string, SkillLevel>("101", SkillLevel.NORMAL) ,false},
+           {new KeyValuePair<string, SkillLevel>("101", SkillLevel.NONE) ,true},
+           {new KeyValuePair<string, SkillLevel>("101", SkillLevel.NORMAL) ,true},
            {new KeyValuePair<string, SkillLevel>("101", SkillLevel.RARE) ,false},
            {new KeyValuePair<string, SkillLevel>("101", SkillLevel.EPIC) ,false},
            {new KeyValuePair<string, SkillLevel>("101", SkillLevel.LEGENDARY) ,false},
@@ -236,8 +265,8 @@ public class RoleManager : MonoBehaviour
            {new KeyValuePair<string, SkillLevel>("101", SkillLevel.MONK) ,false},
            {new KeyValuePair<string, SkillLevel>("101", SkillLevel.SAMURAI) ,false},
 
-           {new KeyValuePair<string, SkillLevel>("110", SkillLevel.NONE) ,false},
-           {new KeyValuePair<string, SkillLevel>("110", SkillLevel.NORMAL) ,false},
+           {new KeyValuePair<string, SkillLevel>("110", SkillLevel.NONE) ,true},
+           {new KeyValuePair<string, SkillLevel>("110", SkillLevel.NORMAL) ,true},
            {new KeyValuePair<string, SkillLevel>("110", SkillLevel.RARE) ,false},
            {new KeyValuePair<string, SkillLevel>("110", SkillLevel.EPIC) ,false},
            {new KeyValuePair<string, SkillLevel>("110", SkillLevel.LEGENDARY) ,false},
@@ -257,14 +286,14 @@ public class RoleManager : MonoBehaviour
        };
 
         PlayerCurrentLevels = new Dictionary<string, SkillLevel>();
-        PlayerCurrentLevels.Add("000", SkillLevel.NONE);
-        PlayerCurrentLevels.Add("001", SkillLevel.NONE);
-        PlayerCurrentLevels.Add("010", SkillLevel.NONE);
-        PlayerCurrentLevels.Add("011", SkillLevel.NONE);
-        PlayerCurrentLevels.Add("100", SkillLevel.NONE);
-        PlayerCurrentLevels.Add("101", SkillLevel.NONE);
-        PlayerCurrentLevels.Add("110", SkillLevel.NONE);
-        PlayerCurrentLevels.Add("111", SkillLevel.NONE);
+        PlayerCurrentLevels.Add("000", SkillLevel.NORMAL);
+        PlayerCurrentLevels.Add("001", SkillLevel.NORMAL);
+        PlayerCurrentLevels.Add("010", SkillLevel.NORMAL);
+        PlayerCurrentLevels.Add("011", SkillLevel.NORMAL);
+        PlayerCurrentLevels.Add("100", SkillLevel.NORMAL);
+        PlayerCurrentLevels.Add("101", SkillLevel.NORMAL);
+        PlayerCurrentLevels.Add("110", SkillLevel.NORMAL);
+        PlayerCurrentLevels.Add("111", SkillLevel.NORMAL);
 
         Treasures = new List<TreasureItem>();
         Treasures.Add(new TreasureItem(TreasureCategory.BUFF, TreasureLevel.RARE, TreasurePro.GENERAL));

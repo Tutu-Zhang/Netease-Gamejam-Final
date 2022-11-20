@@ -103,7 +103,7 @@ public class SelectTreasureUI : MonoBehaviour
 
     public void gotoNext()
     {
-        SceneManager.LoadScene("MissionUI");
+        SceneManager.LoadScene("game1");
     }
 
     public void PTreasureLinkAndDes(GameObject obj, TreasurePro treasurePro, int i)//i由职业确定，代表在excel中是第几行

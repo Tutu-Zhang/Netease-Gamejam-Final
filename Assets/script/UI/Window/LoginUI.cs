@@ -17,7 +17,6 @@ public class LoginUI : UIBase
             Debug.Log("LoginUI²¥·ÅBGM");
             AudioManager.Instance.PlayBGM("beginBGM-Changes-fiftysounds");
         }
-
     }
 
     private void onStartGameBtn(GameObject obj,PointerEventData pData)

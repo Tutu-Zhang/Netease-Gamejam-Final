@@ -66,7 +66,7 @@ public class FightUI : UIBase
         UpdateHP();
         UpdateDef();
 
-
+        Debug.Log(RoleManager.Instance.GetProfession());
         //UpdateCardCount();
         //UpdateUsedCardCount();
         //UpdatePower();

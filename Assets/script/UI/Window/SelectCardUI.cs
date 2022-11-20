@@ -16,6 +16,7 @@ public class SelectCardUI : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+
         if (!AudioManager.Instance.isPlayingBeginBGM)
         {
             Debug.Log("SelectUI播放BGM");
@@ -32,6 +33,9 @@ public class SelectCardUI : MonoBehaviour
     //主要用于在卡牌选择界面显示解锁情况
     public void GetCardUnlockSituration()
     {
+        Debug.Log(RoleManager.Instance.GetProfession());
+
+        int PCardSkillNum = 0;//根据职业，决定最后一行应该是什么
         Description = GameObject.Find("Description");
         for (int i = 0; i < 8; i++)
         {
@@ -51,21 +55,49 @@ public class SelectCardUI : MonoBehaviour
                     if (j>=5)
                     {
                         num_presentProfession = 5;
+                        
                     }
                     string ProfessionNum = num_presentProfession.ToString();
 
                     obj = GameObject.Find(key + "-" + ProfessionNum);
 
-
+                    //确定excel中的位置
+                    int x = 0;
+                    int y = 0;
                     if (j > 0)
                     {
-                        int x = i;
-                        int y = j;
-                        obj.GetComponent<Button>().onClick.AddListener(() => {
-                            RoleManager.Instance.SetCardLevel(key, Clevel);
-                            Description.GetComponent<Text>().text = ExcelReader.Instance.GetProfessionDes(x, y, "CardSkillDes");//添加描述
-                            //Debug.Log(x + "," + y);
-                        });
+                        if (j>=5)//最后一行，要判断职业
+                        {
+                            switch (RoleManager.Instance.PlayerProfession)
+                            {
+                                case Professions.PALADIN:
+                                    PCardSkillNum = 5;
+                                    break;
+                                case Professions.MONK:
+                                    PCardSkillNum = 6;
+                                    break;
+                                case Professions.SAMURAI:
+                                    PCardSkillNum = 7;
+                                    break;
+                            }
+                            x = i;
+                            y = PCardSkillNum;
+                            Debug.Log(y);
+                            obj.GetComponent<Button>().onClick.AddListener(() => {
+                                RoleManager.Instance.SetCardLevel(key, Clevel);
+                                Description.GetComponent<Text>().text = ExcelReader.Instance.GetProfessionDes(x, y, "CardSkillDes");
+                            });
+                        }
+                        else
+                        {
+                            x = i;
+                            y = j;
+                            obj.GetComponent<Button>().onClick.AddListener(() => {
+                                RoleManager.Instance.SetCardLevel(key, Clevel);
+                                Description.GetComponent<Text>().text = ExcelReader.Instance.GetProfessionDes(x, y, "CardSkillDes");
+                            });
+                        }
+
                     }
 
                 }
@@ -77,22 +109,47 @@ public class SelectCardUI : MonoBehaviour
                     {
                         num_presentProfession = 5;
                     }
-                    string ProfessionNum = num_presentProfession.ToString();
-                    
+                    string ProfessionNum = num_presentProfession.ToString();                    
                     obj = GameObject.Find(key + "-" + ProfessionNum);
                     ColorBlock newColor = new ColorBlock();
                     newColor.normalColor = new Color(0, 0, 0); 
                     obj.gameObject.GetComponent<Image>().color = newColor.normalColor;
 
+                    int x = 0;
+                    int y = 0;
                     if (j > 0)
                     {
-                        int x = i;
-                        int y = j;
-                        obj.GetComponent<Button>().onClick.AddListener(() => {
-                            //RoleManager.Instance.SetCardLevel(key, Clevel);
-                            Description.GetComponent<Text>().text = ExcelReader.Instance.GetProfessionDes(x, y, "CardSkillDes");//添加描述
-                            //Debug.Log(x + "," + y);
-                        });
+                        if (j >= 5)//最后一行，要判断职业
+                        {
+                            switch (RoleManager.Instance.PlayerProfession)
+                            {
+                                case Professions.PALADIN:
+                                    PCardSkillNum = 5;
+                                    break;
+                                case Professions.MONK:
+                                    PCardSkillNum = 6;
+                                    break;
+                                case Professions.SAMURAI:
+                                    PCardSkillNum = 7;
+                                    break;
+                            }
+                            x = i;
+                            y = PCardSkillNum;
+                            //Debug.Log(y);
+                            obj.GetComponent<Button>().onClick.AddListener(() => {
+
+                                Description.GetComponent<Text>().text = ExcelReader.Instance.GetProfessionDes(x, y, "CardSkillDes");
+                            });
+                        }
+                        else
+                        {
+                            x = i;
+                            y = j;
+                            obj.GetComponent<Button>().onClick.AddListener(() => {
+                                RoleManager.Instance.SetCardLevel(key, Clevel);
+                                Description.GetComponent<Text>().text = ExcelReader.Instance.GetProfessionDes(x, y, "CardSkillDes");
+                            });
+                        }
                     }
 
                     //Debug.Log("未解锁的数字组合为" + key + "-" + ProfessionNum);                  
