@@ -29,15 +29,16 @@ public class TreasureEffects
             switch (pro)
             {
                 case TreasurePro.PALADIN:
+                    Debug.Log("Ö´ÐÐÊ¥ÆïÊ¿±¦Îï");
                     PaladinTreasure(category);
                     break;
 
                 case TreasurePro.MONK:
-                    General_Round(level);
+                    MonkTreasure(category);
                     break;
 
                 case TreasurePro.SAMURAI:
-                    General_PerGame(level);
+                    SamuraiTreasure(category);
                     break;
             }
         }
@@ -72,12 +73,13 @@ public class TreasureEffects
 
             case TreasureLevel.EPIC:
                 int drawCardCount = 6 - UIManager.Instance.GetUI<FightUI>("fightBackground").GetCardNum() - UIManager.Instance.GetUI<FightUI>("fightBackground").GetPlayCardNum();
-                UIManager.Instance.GetUI<FightUI>("fightBackground").CreatCardItem(drawCardCount);//²¹Âú¿¨ÅÆ
+                Debug.Log("³éµ½ÁË"+drawCardCount+"ÕÅÅÆ");
+                UIManager.Instance.GetUI<FightUI>("fightBackground").CreatCardItem (drawCardCount);//²¹Âú¿¨ÅÆ
                 break;
 
             case TreasureLevel.LEGEND:
                 FightManager.Instance.MaxHP += 10;
-                FightManager.Instance.CurHP += 10;
+                FightManager.Instance.GetRecover(10);
                 break;
         }
     }
@@ -119,6 +121,8 @@ public class TreasureEffects
             case TreasureCategory.PERGAME:
                 FightManager.Instance.GetDefendRecover(FightManager.Instance.CurHP - 1);
                 FightManager.Instance.CurHP = 1;
+                UIManager.Instance.GetUI<FightUI>("fightBackground").UpdateHP();
+
                 break;
         }
     }

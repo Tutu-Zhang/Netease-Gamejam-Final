@@ -1,16 +1,16 @@
-Id	Name	Hp	Attack	Defend	Model	EnemyAction-Defend	EnemyAction-Attack
-Id	名字	血量	攻击力	防御盾	怪物的模型路径	怪物行为-防御	怪物行为-攻击
-10000	大头鲸	30	6	10	EnemyModel/level0/EnemyWaiting	敌方获得了护甲！	敌方对你造成了伤害！
-10001	生	40	8	15	EnemyModel/level1/EnemyWaiting	敌方获得了护甲！	敌方对你造成了伤害！
-10002	老	50	8	20	EnemyModel/level2/EnemyWaiting	敌方恢复了生命值！	敌方对你造成了伤害，并恢复了生命值！
-10003	BOSS龙骨	20	10	80	EnemyModel/level3/EnemyWaiting	敌方获得了护甲！并对你造成了伤害！	敌方对你造成了大量伤害！
-10004	病	50	10	25	EnemyModel/level4/EnemyWaiting	敌方恢复了生命值，并获得了护甲！	敌方对你造成了伤害!
-10005	死	50	10	30	EnemyModel/level5/EnemyWaiting	敌方恢复了生命值，并获得了护甲！	敌方对你造成了伤害！
-10006	求不得	60	12	30	EnemyModel/level6/EnemyWaiting	敌方恢复了生命值，并获得了护甲！	敌方对你造成了伤害！
-10007	BOSS克苏鲁	120	14	0	EnemyModel/level7/EnemyWaiting	敌方恢复了生命值，并获得了护甲！	敌方对你造成了伤害！
-10008	怨憎会	60	14	30	EnemyModel/level8/EnemyWaiting	敌方恢复了生命值，并获得了护甲！	敌方对你造成了伤害！
-10009	爱别离	65	14	35	EnemyModel/level9/EnemyWaiting	敌方恢复了生命值，并获得了护甲！	敌方对你造成了伤害！
-100010	五阴炽	65	16	30	EnemyModel/level10/EnemyWaiting	敌方恢复了生命值，并获得了护甲！	敌方对你造成了伤害！
-100011	天使	150	18	30	EnemyModel/level11/EnemyWaiting	敌方恢复了生命值，并获得了护甲！	敌方对你造成了伤害！
-100012	爱	250	18	30	EnemyModel/level12/EnemyWaiting	敌方恢复了生命值，并获得了护甲！	敌方对你造成了伤害！
-100013	欲望	150	18	30	EnemyModel/level13/EnemyWaiting	敌方恢复了生命值，并获得了护甲！	敌方对你造成了伤害！
+Id	Hp	Attack	Defend	Model	EnemyAction-Defend	EnemyAction-Attack
+Id	血量	攻击力	防御盾	怪物的模型路径	怪物行为-防御	怪物行为-攻击
+10000	30	6	10	EnemyModel/level0/EnemyWaiting1	【大头鲸】对你造成了伤害！	【大头鲸】对你造成了伤害！
+10001	40	8	15	EnemyModel/level1/EnemyWaiting2	【生】获得了护甲！	【生】对你造成了伤害！
+10002	50	8	20	EnemyModel/level2/EnemyWaiting3	【老】对你吸取了你的生命！	【老】对你造成了伤害！
+10003	20	10	80	EnemyModel/level3/EnemyWaiting4	【龙骨沉船】获得了护甲！	【龙骨沉船】对你造成了伤害！
+10004	50	10	25	EnemyModel/level4/EnemyWaiting5	【病】对你造成了伤害，无视护甲！	【病】对你造成了伤害!
+10005	50	10	30	EnemyModel/level5/EnemyWaiting6	【死】对你造成了伤害！	【死】对你造成了伤害！！
+10006	60	12	30	EnemyModel/level6/EnemyWaiting7	【求不得】对你造成了伤害！	【求不得】对你造成了伤害！
+10007	120	14	0	EnemyModel/level7/EnemyWaiting8	【克苏鲁】汲取了生命精华！	【克苏鲁】对你造成了伤害！
+10008	60	14	30	EnemyModel/level8/EnemyWaiting9	【怨憎会】对双方都造成了伤害！	【怨憎会】对你造成了伤害！
+10009	65	14	35	EnemyModel/level9/EnemyWaiting10	【爱别离】对你造成了伤害！	【爱别离】对你造成了伤害伤害！
+100010	65	16	30	EnemyModel/level10/EnemyWaiting11	【五阴炽】偷走了你的血量！	【五阴炽】偷走了你的血量！
+100011	150	18	30	EnemyModel/level11/EnemyWaitingP	【天使】降下了神罚！	【天使】降下了神罚！
+100012	250	18	30	EnemyModel/level12/EnemyWaiting13	【爱】深情拥抱了你！	【爱】深情拥抱了你！
+100013	150	18	30	EnemyModel/level13/EnemyWaiting14	【欲望】在吞噬你！	【欲望】在吞噬你！

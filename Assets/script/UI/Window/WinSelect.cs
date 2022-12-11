@@ -83,6 +83,7 @@ public class WinSelect : MonoBehaviour
 
 
         GameObject obj;
+        GameObject Des = GameObject.Find("Description");
         System.Random rnd = new System.Random();
         for (int i = 1; i <= 3; i++)
         {
@@ -93,21 +94,29 @@ public class WinSelect : MonoBehaviour
             obj = GameObject.Find("效果名" + i.ToString());
             int x = DescriptionManager.Instance.PairToNum[keyList[num]];//000对应的列数0
             int y = DescriptionManager.Instance.SkillLevelToNum[skillLevelList[num]];//rare对应2
-            obj.GetComponent<Text>().text = ExcelReader.Instance.GetProfessionDes(x, y, "CardSkillDes");//需要一个excel
+            obj.GetComponent<Text>().text = DescriptionManager.Instance.PairToWater[keyList[num]]; ;
+
             //改变效果图标
             obj = GameObject.Find("效果图标" + i.ToString());
-            string imgPath = "UI-img/Treasure/宝物解锁";
+            string imgPath = ExcelReader.Instance.GetProfessionDes(x, y, "CardSkillIcon");
             Texture2D texture = Resources.Load<Texture2D>(imgPath);
             Sprite sp = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             obj.GetComponent<Image>().sprite = sp;
+            
             //解锁效果
             obj = GameObject.Find("效果" + i.ToString());
             //提前将组合取出
             string TempFinalKey = keyList[num];
             SkillLevel TempFinalSkillLevel = skillLevelList[num];
+
+            int temp_i = i;//暂时存储i的值
             obj.GetComponent<Button>().onClick.AddListener(() => {
                 //RoleManager.Instance.SetCardLevel(keyList[i], skillLevelList[i]);     不能在这里直接解锁
                 //在点击下一页时才解锁这个技能
+                Des.GetComponent<Text>().text = ExcelReader.Instance.GetProfessionDes(x, y, "CardSkillDes");
+                //显示“已选择”效果
+                SetWIconSelected(3, temp_i, "卡牌效果");
+
                 FinalKey = TempFinalKey;
                 FinalSkillLevel = TempFinalSkillLevel;
             });
@@ -156,7 +165,7 @@ public class WinSelect : MonoBehaviour
             }
         }
 
-
+        GameObject Des = GameObject.Find("Description");
         if (keyList.Count == 0)//所有职业卡牌技能全部解锁
         {
             GameObject obj = GameObject.Find("职业效果");//将职业效果隐藏
@@ -170,10 +179,10 @@ public class WinSelect : MonoBehaviour
             obj = GameObject.Find("职业效果描述");
             int x = DescriptionManager.Instance.PairToNum[keyList[num]];//000对应的列数0
             int y = DescriptionManager.Instance.SkillLevelToNum[skillLevelList[num]];//rare对应2
-            obj.GetComponent<Text>().text = ExcelReader.Instance.GetProfessionDes(x, y, "CardSkillDes");//需要一个excel
+            obj.GetComponent<Text>().text = DescriptionManager.Instance.PairToWater[keyList[num]];
             //改变效果图标
             obj = GameObject.Find("职业效果图标");
-            string imgPath = "UI-img/Treasure/宝物解锁";
+            string imgPath = ExcelReader.Instance.GetProfessionDes(x, y, "CardSkillIcon");
             Texture2D texture = Resources.Load<Texture2D>(imgPath);
             Sprite sp = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
             obj.GetComponent<Image>().sprite = sp;
@@ -184,6 +193,9 @@ public class WinSelect : MonoBehaviour
             obj.GetComponent<Button>().onClick.AddListener(() => {
                 //RoleManager.Instance.SetCardLevel(keyList[i], skillLevelList[i]);     不能在这里直接解锁
                 //在点击下一页时才解锁这个技能
+                Des.GetComponent<Text>().text = ExcelReader.Instance.GetProfessionDes(x, y, "CardSkillDes");
+                SetWIconSelected(3, 1, "职业效果");
+
                 FinalPkey = TempFinalKey;
                 FinalPSkillLevel = TempFinalSkillLevel;
                 //玩家选择了第一项
@@ -192,13 +204,14 @@ public class WinSelect : MonoBehaviour
         }
     }
 
-    //为升级技能按钮添加点击事件
+    //为升级技能按钮添加点击事件(需要补充一下升级技能后的效果描述
     public void AddListenerToPlayerSkillLevelUp()
     {
         //获取升级技能按钮
         GameObject obj;
         obj = GameObject.Find("升级技能");
         obj.GetComponent<Button>().onClick.AddListener(() => {
+            SetWIconSelected(3, 2, "职业效果");
             PWhichWasSelect = 2;
         });
         //如果职业技能已经达到传说级别，那么就将这个选项隐藏
@@ -229,6 +242,8 @@ public class WinSelect : MonoBehaviour
 
                 break;
             case SkillLevel.LEGENDARY:
+                obj = GameObject.Find("升级技能");
+                obj.SetActive(false);
                 break;
         }
     }
@@ -240,11 +255,36 @@ public class WinSelect : MonoBehaviour
         obj = GameObject.Find("提升血量");
         obj.GetComponent<Button>().onClick.AddListener(() => {
             PWhichWasSelect = 3;
+            SetWIconSelected(3, 3, "职业效果");
         });
     }
     public void MaxHpUp()//将提升血量的次数存在LevelManager里面
     {
         LevelManager.Instance.MaxHpFix += 1;
+    }
+
+    public void SetWIconSelected(int groupCount, int whichToSelect, string groupName)//组内有多少个物体GroupCount，在这里有3个；以及要设置的是哪一个WhichToSelect，对应i；groupName代表“卡牌效果”，“职业效果”
+    {
+        //遍历该组内的所“已选择”文字
+        for (int i = 1; i <= groupCount; i++)
+        {
+
+            //找到特定的“已选择”
+            GameObject selectedText = GameObject.Find(groupName + i.ToString() + "已选择");
+            Debug.Log("点击的按钮是：" + groupName + i.ToString() + "已选择");
+
+            if (i == whichToSelect)//如果遍历到的这个按钮就是要选择的这个按钮
+            {
+
+                Debug.Log(selectedText);
+                selectedText.GetComponent<Text>().text = "已选择";
+            }
+            else//如果不是
+            {
+                selectedText.GetComponent<Text>().text = " ";
+            }
+
+        }
     }
 
 }

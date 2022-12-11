@@ -10,6 +10,8 @@ public class FightLose : FightUnit
     public GameObject GoToEnd2;
     public override void Init()
     {
+        
+
         FightManager.Instance.StopAllCoroutines();
         Debug.Log("”Œœ∑ ß∞‹");
         AudioManager.Instance.StopBGM();

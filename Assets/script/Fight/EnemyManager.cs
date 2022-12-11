@@ -41,7 +41,9 @@ public class EnemyManager
 
             Debug.Log("敌人模型提取" + enemyData["Model"]);
             
-            GameObject obj = Object.Instantiate(Resources.Load(enemyData["Model"])) as GameObject;//从资源加载对应的敌人模型    
+            GameObject obj = Object.Instantiate(Resources.Load(enemyData["Model"])) as GameObject;//从资源加载对应的敌人模型
+                                                                                                  
+            Debug.Log("敌人为" + obj);
 
             Enemy enemy = obj.AddComponent<Enemy>();//为敌人物体添加脚本
 
@@ -95,7 +97,7 @@ public class EnemyManager
             
         }
 
-        //更新所有敌人行为图标
+        //指定所有敌人的行动
         for (int i = 0; i < enemyList.Count; i++)
         {
             enemyList[i].SetRandomAction();

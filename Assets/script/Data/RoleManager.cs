@@ -25,8 +25,8 @@ public class RoleManager : MonoBehaviour
 
 
     //玩家的宝物库与解锁情况与当前选择的宝物
-    private List<TreasureItem> Treasures;
-    private TreasureItem Treasure_1, Treasure_2;//1是公共，2是职业
+    private List<TreasureItem> Treasures;   
+    public TreasureItem Treasure_1, Treasure_2;//1是公共，2是职业
 
     public void Start()
     {

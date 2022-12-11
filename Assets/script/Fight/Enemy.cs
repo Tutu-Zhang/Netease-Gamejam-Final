@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour
 
     //组件相关
     SkinnedMeshRenderer _meshRenderer;
-    public Animator ani;
+    //public Animator ani;
 
     public void Init(Dictionary<string,string> data)
     {
@@ -52,10 +52,11 @@ public class Enemy : MonoBehaviour
     {
         Instance = this;
         //_meshRenderer = transform.GetComponentInChildren<SkinnedMeshRenderer>();//好像是获取轮廓？
-        GameObject enemy = GameObject.Find("EnemyWaiting(Clone)");       
-        ani = enemy.GetComponent<Animator>();//获取动画控件
+        //Debug.Log("EnemyWaiting" + (LevelManager.Instance.level).ToString() + "(Clone)");
+        /*        GameObject enemy = GameObject.Find("EnemyWaiting" + (LevelManager.Instance.level).ToString() + "(Clone)");       
+        ani = enemy.GetComponent<Animator>();//获取动画控件*/
 
-        Debug.Log(ani);
+        //Debug.Log(ani);
         type = ActionType.None;
 
         //加载敌人血条和行动图标
@@ -63,8 +64,8 @@ public class Enemy : MonoBehaviour
         actionObj = UIManager.Instance.CreateActionIcon();
 
 
-        attackTf = actionObj.transform.Find("atk");
-        defendTf = actionObj.transform.Find("def");
+        //attackTf = actionObj.transform.Find("atk");
+        //defendTf = actionObj.transform.Find("def");
 
         defText = hpItemObj.transform.Find("EnemyDEFText").GetComponent<Text>();//找到组件中的防御力数值
         hpText = hpItemObj.transform.Find("EnemyHPText").GetComponent<Text>();
@@ -120,17 +121,6 @@ public class Enemy : MonoBehaviour
 
     }
 
-    //敌人被选中时显示红边
-    public void OnSelect()
-    {
-        _meshRenderer.material.SetColor("OtlColor", Color.red);//这里好像是一个子着色器？
-    }
-
-    //未选中敌人时敌人的颜色
-    public void OnUnSelect()
-    {
-        _meshRenderer.material.SetColor("OtlColor", Color.black);//这里好像是一个子着色器？
-    }
 
     //护甲扣除
     public void DefendDecrease(int val)
@@ -146,7 +136,7 @@ public class Enemy : MonoBehaviour
     //受到真实伤害
     public void ThroughHited(int val)
     {
-        ani.SetBool("isHitted", true);
+        //ani.SetBool("isHitted", true);
         Invoke("SetisHittedToFalse", 0.3f);
 
         int this_dmg = val;
@@ -158,7 +148,7 @@ public class Enemy : MonoBehaviour
     //受伤
     public void Hited(int val)
     {
-        ani.SetBool("isHitted", true);
+        //ani.SetBool("isHitted", true);
         Invoke("SetisHittedToFalse", 0.3f);
 
         int this_dmg = val;
@@ -198,7 +188,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            ani.SetBool("isHitted", true);
+            //ani.SetBool("isHitted", true);
         }
 
         //刷新血量等UI
@@ -206,11 +196,6 @@ public class Enemy : MonoBehaviour
         UpdateHp();
     }
 
-    //用于延迟触发
-    public void SetisHittedToFalse()
-    {
-        ani.SetBool("isHitted", false);
-    }
 
     //隐藏怪物头上的行动标志
     public void HideAction()
@@ -226,18 +211,55 @@ public class Enemy : MonoBehaviour
             switch (LevelManager.Instance.level)
             {
 
-                case 0:
+                case 1:
                     yield return EnemySkill.Instance.EnemyActio0(this, type);
                     break;
-                case 1:
-                    yield return EnemySkill.Instance.EnemyActio1(this, type, CurHp);
-                    break;
                 case 2:
-                    yield return EnemySkill.Instance.EnemyActio2(this, type);
+                    yield return EnemySkill.Instance.EnemyActio1(this, type);
                     break;
                 case 3:
+                    yield return EnemySkill.Instance.EnemyActio2(this, type);
+                    break;
+                case 4:
                     yield return EnemySkill.Instance.EnemyActio3(this, type);
                     break;
+                case 5:
+                    yield return EnemySkill.Instance.EnemyActio4(this, type);
+                    break;
+                case 6:
+                    yield return EnemySkill.Instance.EnemyActio5(this, type);
+                    break;
+                case 7:
+                    yield return EnemySkill.Instance.EnemyActio6(this, type);
+                    break;
+                case 8:
+                    yield return EnemySkill.Instance.EnemyActio7(this, type);
+                    break;
+                case 9:
+                    yield return EnemySkill.Instance.EnemyActio8(this, type);
+                    break;
+                case 10:
+                    yield return EnemySkill.Instance.EnemyActio9(this, type);
+                    break;
+                case 11:
+                    yield return EnemySkill.Instance.EnemyActio10(this, type);
+                    break;
+                case 12:
+                    switch (RoleManager.Instance.PlayerProfession)
+                    {
+                        case Professions.PALADIN:
+                            yield return EnemySkill.Instance.EnemyActio_PALADIN(this, type);
+                            break;
+                        case Professions.MONK:
+                            yield return EnemySkill.Instance.EnemyActio_MONK(this, type);
+                            break;
+                        case Professions.SAMURAI:
+                            yield return EnemySkill.Instance.EnemyActio_SAMURAI(this, type);
+                            break;
+
+                    }
+                    break;
+
             }
         }
         else
@@ -253,7 +275,5 @@ public class Enemy : MonoBehaviour
         int ran = Random.Range(0, 2);
 
         type = (ActionType)ran;
-
-        //type = ActionType.Attack;
     }
 }

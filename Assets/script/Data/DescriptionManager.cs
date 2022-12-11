@@ -15,16 +15,20 @@ public class DescriptionManager : MonoBehaviour
     //从0，1，2到000，001，010
     public Dictionary<int, string> NumToPair;
     public Dictionary<string, int> PairToNum;
+    public Dictionary<string, string> PairToWater;
     //从0，1，2到NONE，NORMAL,RARE
     public Dictionary<int, SkillLevel> NumToSkillLevel;
     public Dictionary<SkillLevel, int> SkillLevelToNum;
 
     //从0，1，2到RARE, EPIC, LEGEND（稀有度
     public Dictionary<int, TreasureLevel> NumToTLevel;
+    public Dictionary<TreasureLevel, int> TLevelToNum;
     //从0，1，2到BUFF, ROUND, PERGAME（类型
     public Dictionary<int, TreasureCategory> NumToCategory;
+    public Dictionary<TreasureCategory,int> CategoryToNum;
     //从0，1，2到GENERAL，PALADIN, MONK, SAMURAI（职业
     public Dictionary<int, TreasurePro> NumToPro;
+    public Dictionary<TreasurePro, int> ProToNum;
 
 
 
@@ -42,15 +46,15 @@ public class DescriptionManager : MonoBehaviour
         switch (pro)
         {
             case Professions.PALADIN:               
-                Profession.GetComponent<Text>().text = "我将净化所有罪恶！";
+                //Profession.GetComponent<Text>().text = "我将净化所有罪恶！";
                 Description.GetComponent<Text>().text = ExcelReader.Instance.GetProfessionDes(0,0, "ProfessionDes");
                 break;
             case Professions.MONK:
-                Profession.GetComponent<Text>().text = "让神明感受痛苦！";
+                //Profession.GetComponent<Text>().text = "让神明感受痛苦！";
                 Description.GetComponent<Text>().text = ExcelReader.Instance.GetProfessionDes(0,1, "ProfessionDes");
                 break;
             case Professions.SAMURAI:
-                Profession.GetComponent<Text>().text = "我的我的都是我的！";
+                //Profession.GetComponent<Text>().text = "我的我的都是我的！";
                 Description.GetComponent<Text>().text = ExcelReader.Instance.GetProfessionDes(0,2, "ProfessionDes");
                 break;
         }
@@ -81,6 +85,18 @@ public class DescriptionManager : MonoBehaviour
             {"101",5 },
             {"110",6 },
             {"111",7 }
+        };
+
+        PairToWater = new Dictionary<string, string>
+        {
+            {"000","柔柔柔" },
+            {"001","柔柔刚" },
+            {"010","柔刚柔" },
+            {"011","柔刚刚" },
+            {"100","刚柔柔" },
+            {"101","刚柔刚"},
+            {"110","刚刚柔"},
+            {"111","刚刚刚"}
         };
 
         NumToSkillLevel = new Dictionary<int, SkillLevel>
@@ -116,12 +132,25 @@ public class DescriptionManager : MonoBehaviour
             {1,TreasureLevel.EPIC },
             {2,TreasureLevel.LEGEND }
         };
+        TLevelToNum = new Dictionary<TreasureLevel, int>
+        {
+            {TreasureLevel.RARE,0},
+            {TreasureLevel.EPIC,1 },
+            {TreasureLevel.LEGEND,2 }
+        };
+
 
         NumToCategory = new Dictionary<int, TreasureCategory>
         {
             {0,TreasureCategory.BUFF },
             {1,TreasureCategory.ROUND },
             {2,TreasureCategory.PERGAME }
+        };
+        CategoryToNum = new Dictionary<TreasureCategory, int>
+        {
+            {TreasureCategory.BUFF, 0 },
+            {TreasureCategory.ROUND ,1},
+            {TreasureCategory.PERGAME ,2}
         };
 
         NumToPro = new Dictionary<int, TreasurePro>
@@ -130,6 +159,13 @@ public class DescriptionManager : MonoBehaviour
             {1,TreasurePro.PALADIN },
             {2,TreasurePro.MONK },
             {3,TreasurePro.SAMURAI }
+        };
+        ProToNum = new Dictionary<TreasurePro, int>
+        {
+            {TreasurePro.GENERAL ,0},
+            {TreasurePro.PALADIN ,1},
+            {TreasurePro.MONK ,2},
+            {TreasurePro.SAMURAI,3 }
         };
     }
 }

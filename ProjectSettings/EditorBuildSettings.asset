@@ -9,27 +9,24 @@ EditorBuildSettings:
     path: Assets/Scenes/beginScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/AfterGame.unity
-    guid: 66f23d4ab0158674183190cb45c868d6
-  - enabled: 1
     path: Assets/Scenes/selectPerfossionScene.unity
     guid: 47f783f0bcd637e43900d34bcc658df4
   - enabled: 1
     path: Assets/Scenes/game1.unity
     guid: dfd41ca7dbb3b0342b5ef010d6b9f9c4
   - enabled: 1
-    path: Assets/Scenes/BeforeGame.unity
-    guid: c7a511240084c9648b23c0fe0d068fbb
-  - enabled: 1
     path: Assets/Scenes/selectCardSkills.unity
     guid: b13d6ea8dc4f9444996d6291bd7c2916
-  - enabled: 0
-    path: Assets/Scenes/MissionUI.unity
-    guid: 74b27f78c632e3044a609b0da79ffbb1
   - enabled: 1
     path: Assets/Scenes/selectTreasures.unity
     guid: 6b515eecd85076c45ac2a243759ec924
   - enabled: 1
     path: Assets/Scenes/winSelect.unity
     guid: 7a1e6ee2125904e4494a8fd1959c1974
+  - enabled: 1
+    path: Assets/Scenes/FinalUI.unity
+    guid: 6b3e1ca2227c2af45b3cbf8e0b59ef44
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects: {}

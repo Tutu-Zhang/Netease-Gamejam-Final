@@ -14,8 +14,17 @@ public class FightWin : FightUnit
         Debug.Log("ÓÎÏ·Ê¤Àû");
         AudioManager.Instance.StopBGM();        
         AudioManager.Instance.PlayEffect("Ê¤Àû");
-        LevelManager.Instance.level += 1;
-        Invoke("ShowWindow", 1f);
+
+        if (LevelManager.Instance.level == 12)
+        {
+            Invoke("GoToFinal", 3f);
+        }
+        else
+        {
+            LevelManager.Instance.level += 1;
+            Invoke("ShowWindow", 1f);
+        }
+
     }
 
     private void ShowWindow()
@@ -33,6 +42,10 @@ public class FightWin : FightUnit
         SceneManager.LoadScene("winSelect");
     }
 
+    private void GoToFinal()
+    {
+        SceneManager.LoadScene("FinalUI");
+    }
     public override void OnUpdate()
     {
 

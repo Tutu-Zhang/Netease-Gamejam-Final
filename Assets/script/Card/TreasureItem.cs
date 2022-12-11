@@ -68,6 +68,7 @@ public class TreasureItem
             Ifready = false;
             PrepareTime = 999;
         }
+        Debug.Log(" π”√±¶ŒÔ" + TCategory + " " + TPro + " " + Tlevel);
 
         TreasureEffects.MatchTreasure(TPro, TCategory, Tlevel);
     }

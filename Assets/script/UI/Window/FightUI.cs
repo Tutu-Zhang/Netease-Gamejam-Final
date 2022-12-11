@@ -7,9 +7,6 @@ using System;
 
 public class FightUI : UIBase
 {
-    //private Text cardCountText;//卡牌数量
-    //private Text noCardCountText;//弃牌堆数量
-    //private Text powerText;
     private Text hpText;
     private Image hpImage;
     private Image hpHitImage;
@@ -20,14 +17,13 @@ public class FightUI : UIBase
     private GameObject cardZone;
     private GameObject cardArea;
     private GameObject enemyCase;
-    private GameObject BuffDescription;
-    private String skillText = "技能描述";
 
     private List<CardItem> cardItemList; //手牌区集合
     private List<CardItem> PlayCardList; //出牌区集合
     private List<BuffItem> BuffList; //牌局中Buff集合，由于不存在玩家对打，所以敌人buff和自己的buff都在里面
+    private List<Button> UseBtnList;//出牌按钮列表
 
-    Button turnBtn, UseBtn, SklBtn, TBtn1, TBtn2;
+    Button turnBtn, SklBtn, TBtn1, TBtn2;
 
     public bool SkillUsed = false;
     private void Awake()
@@ -35,10 +31,8 @@ public class FightUI : UIBase
         cardItemList = new List<CardItem>();
         PlayCardList = new List<CardItem>();
         BuffList = new List<BuffItem>();
+        UseBtnList = new List<Button>();
         BuffList.Clear();
-
-        BuffDescription = transform.Find("BuffDescription").gameObject;
-        BuffDescription.AddComponent<BuffDescription>();
     }
 
     private void Start()
@@ -57,8 +51,16 @@ public class FightUI : UIBase
         cardArea = transform.Find("CardArea").gameObject;
         turnBtn = GameObject.Find("turnBtn").GetComponent<Button>();
         turnBtn.gameObject.SetActive(false);
-        UseBtn = GameObject.Find("UseBtn").GetComponent<Button>();
-        UseBtn.gameObject.SetActive(false);
+        
+        //获取出牌按钮列表
+        DescriptionManager.Instance.CreatlNumToCardSkilDictionary();
+        for (int i = 0; i < 8; i++)
+        {
+            Debug.Log("useBtn" + DescriptionManager.Instance.NumToPair[i]+" i的值为："+i);
+            UseBtnList.Add(GameObject.Find("useBtn" + DescriptionManager.Instance.NumToPair[i]).GetComponent<Button>());            
+            UseBtnList[i].gameObject.SetActive(false);
+            UseBtnList[i].onClick.AddListener(UseCard);
+        }
 
         SklBtn = GameObject.Find("技能").GetComponent<Button>();
         TBtn1 = GameObject.Find("宝物1").GetComponent<Button>();
@@ -66,8 +68,6 @@ public class FightUI : UIBase
 
         //获取回合切换按钮
         turnBtn.onClick.AddListener(onChangeTurnBtn);
-        //获取出牌按钮
-        UseBtn.onClick.AddListener(UseCard);
         //获取技能按钮并添加委托
         SklBtn.onClick.AddListener(UseSkill);
 
@@ -79,8 +79,19 @@ public class FightUI : UIBase
 
         Debug.Log(RoleManager.Instance.GetProfession());
 
-        RoleManager.Instance.GetTreasure(1).SetTreasureAble();
-        RoleManager.Instance.GetTreasure(2).SetTreasureAble();
+        if (RoleManager.Instance.GetTreasure(1) != null)
+        {
+            Debug.Log("设置宝物1为有效" + " " + RoleManager.Instance.GetTreasure(1).TPro + RoleManager.Instance.GetTreasure(1).TCategory);
+            RoleManager.Instance.GetTreasure(1).SetTreasureAble();
+        }
+        if (RoleManager.Instance.GetTreasure(2) != null)
+        {
+            RoleManager.Instance.GetTreasure(2).SetTreasureAble();
+        }
+
+        SetCardSkillDes();//显示当前技能描述
+
+        TreasureDes();//替换宝物图标
         //UpdateCardCount();
         //UpdateUsedCardCount();
         //UpdatePower();
@@ -115,7 +126,7 @@ public class FightUI : UIBase
                 return;
             }
 
-            if (RoleManager.Instance.GetTreasure(1).IfReady())
+            if (RoleManager.Instance.GetTreasure(1).IfReady() == true)
             {
                 RoleManager.Instance.GetTreasure(1).UseTreasure();
             }
@@ -137,7 +148,7 @@ public class FightUI : UIBase
                 return;
             }
 
-            if (RoleManager.Instance.GetTreasure(2).IfReady())
+            if (RoleManager.Instance.GetTreasure(2).IfReady() == true)
             {
                 RoleManager.Instance.GetTreasure(2).UseTreasure();
             }
@@ -166,7 +177,20 @@ public class FightUI : UIBase
             {
                 CardEffects.MatchCard(cardId, GetSpecialSkillLevel(cardId)); //Matchcard顺便就执行卡的效果
                 StartCoroutine(UseCardEffects(cardId));
-                BuffDescription.GetComponent<BuffDescription>().RefreshBuffText();
+                //BuffDescription.GetComponent<BuffDescription>().RefreshBuffText();
+
+                //将按钮激活
+                int cardPairNum = DescriptionManager.Instance.PairToNum[cardId];
+                UseBtnList[cardPairNum].gameObject.SetActive(false);
+                //将卡牌放大，作为出牌提醒
+                GameObject card = GameObject.Find("Image" + cardId);
+                card.transform.SetSiblingIndex(DescriptionManager.Instance.PairToNum[cardId]);
+                Transform[] cardChild = card.transform.GetComponentsInChildren<Transform>(true);
+                foreach (var child in cardChild)
+                {
+                    child.DOScale(1f, 0.2f);//复原
+                }
+
             }
             else
             {
@@ -190,7 +214,7 @@ public class FightUI : UIBase
             if (RoleManager.Instance.GetProSkillLvl() != SkillLevel.NONE && RoleManager.Instance.GetProfession() != Professions.NONE)
             {
                 PlayerSkill.MatchSkill(RoleManager.Instance.GetProfession(), RoleManager.Instance.GetProSkillLvl()); //Matchcard顺便就执行卡的效果
-                BuffDescription.GetComponent<BuffDescription>().RefreshBuffText();
+                //BuffDescription.GetComponent<BuffDescription>().RefreshBuffText();
                 SkillUsed = true;
             }
             else
@@ -228,35 +252,7 @@ public class FightUI : UIBase
     }
 
     //显示卡牌效果, 现在还没进行匹配
-    private void ShowSkillText()
-    {
-        string cardId = "";
-        for (int i = 0; i < PlayCardList.Count; i++)
-        {
-            cardId = cardId + PlayCardList[i].GetCardNum().ToString();
-        }
 
-        
-        Dictionary<string, string> skillData = GameConfigManager.Instance.GetPlayerSkillsById("00001");
-
-        GameObject obj = GameObject.FindGameObjectWithTag("SkillDes");
-
-        //此条目前在还没有改写技能描述的情况下会报错
-        //skillText = skillData[cardId];
-
-        obj.GetComponent<Text>().text = cardId + ":"+ skillText;
-
-        skillText = "技能描述";
-
-    }
-
-    //隐藏卡牌效果
-    private void HideSkillText()
-    {
-        GameObject obj = GameObject.FindGameObjectWithTag("SkillDes");
-
-        obj.GetComponent<Text>().text = skillText;
-    }
 
     //寻找buff列表中是否有buffid为参数的buff
     public BuffItem FindBuff(string id)
@@ -402,7 +398,7 @@ public class FightUI : UIBase
      
     }
 
-    //更新出牌区位置
+    //更新出牌区位置&显示出牌按钮
     public void UpdatePlayCardPos()
     {
         //Debug.Log("更新上方牌区位置");
@@ -415,13 +411,28 @@ public class FightUI : UIBase
 
         if (PlayCardList.Count == 3)
         {
-            ShowSkillText();
-            UseBtn.gameObject.SetActive(true);
+            //获取当前的卡牌组合
+            string cardId = "";
+            for (int i = 0; i < PlayCardList.Count; i++)
+            {
+                cardId = cardId + PlayCardList[i].GetCardNum().ToString();
+            }
+            //将按钮激活
+            int cardPairNum = DescriptionManager.Instance.PairToNum[cardId];
+            UseBtnList[cardPairNum].gameObject.SetActive(true);
+            //将卡牌放大，作为出牌提醒
+            GameObject card = GameObject.Find("Image" + cardId);
+            card.transform.SetAsLastSibling();
+            Transform[] cardChild =  card.transform.GetComponentsInChildren<Transform>(true);
+            foreach (var child in cardChild)
+            {
+                child.DOScale(1.2f, 0.2f);//放大
+            }
+
         }
         else
         {
-            HideSkillText();
-            UseBtn.gameObject.SetActive(false);
+            Debug.Log("尚未达成出牌条件");
         }               
     }
 
@@ -527,7 +538,7 @@ public class FightUI : UIBase
 
     public void refreshBuff()
     {
-        BuffDescription.GetComponent<BuffDescription>().RefreshBuffText(); ;
+        //BuffDescription.GetComponent<BuffDescription>().RefreshBuffText(); ;
     }
 
     public List<BuffItem> returnBuffList()
@@ -552,5 +563,70 @@ public class FightUI : UIBase
                 RemoveCard(PlayCardList[i], ifInPlayArea);
             }
         }
+    }
+
+
+    public void SetCardSkillDes()
+    {
+
+        GameObject CardDes;
+        GameObject CardIcon;
+        DescriptionManager.Instance.CreatlNumToCardSkilDictionary();
+        for (int i = 0; i < 8; i++)
+        {
+            CardDes = GameObject.Find("Name" + i.ToString());//卡牌描述
+
+            SkillLevel skl = RoleManager.Instance.GetCurrentCardLevel(DescriptionManager.Instance.NumToPair[i]);//存储当前卡牌等级
+
+            int j = DescriptionManager.Instance.SkillLevelToNum[skl];//取得对应的坐标
+
+            CardDes.GetComponent<Text>().text = ExcelReader.Instance.GetProfessionDes(i, j, "CardSkillDes");
+
+            string imgPath = ExcelReader.Instance.GetProfessionDes(i, j, "CardSkillIcon");
+            CardIcon = GameObject.Find("TreasureImg" + i.ToString());
+            Texture2D texture = Resources.Load<Texture2D>(imgPath);
+            Sprite sp = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+            CardIcon.GetComponent<Image>().sprite = sp;
+        }
+    }
+
+    //设置宝物图标
+    public void TreasureDes()
+    {
+        DescriptionManager.Instance.CreatNumToTreasureDictionary();
+
+        DescriptionManager.Instance.CreatNumToTreasureDictionary();
+
+        TreasureItem treasure1 = RoleManager.Instance.GetTreasure(1);
+        TreasureItem treasure2 = RoleManager.Instance.GetTreasure(2);
+
+        //宝物1
+        TreasureLevel treasureLevel1 = treasure1.Tlevel;
+        TreasureCategory treasureCategory1 = treasure1.TCategory;
+        string TImgPath1 = ExcelReader.Instance.GetProfessionDes(DescriptionManager.Instance.TLevelToNum[treasureLevel1], DescriptionManager.Instance.CategoryToNum[treasureCategory1], "TreasureIcon");
+        Debug.Log("宝物1的图标为" + TImgPath1);
+        GameObject T1 = GameObject.Find("宝物1");
+        Texture2D texture = Resources.Load<Texture2D>(TImgPath1);
+        Sprite sp = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        T1.GetComponent<Image>().sprite = sp;
+
+        GameObject T1Text = GameObject.Find("TreasurText1");
+        T1Text.GetComponent<Text>().text = ExcelReader.Instance.GetProfessionDes(DescriptionManager.Instance.TLevelToNum[treasureLevel1], DescriptionManager.Instance.CategoryToNum[treasureCategory1] ,"TreasureDes");
+
+        //宝物2
+        TreasurePro treasurePro = treasure2.TPro;
+        TreasureCategory treasureCategory2 = treasure2.TCategory;
+
+        Debug.Log("宝物2的职业和种类为"+treasurePro + " " + treasureCategory2);
+        string TImgPath2 = ExcelReader.Instance.GetProfessionDes(DescriptionManager.Instance.ProToNum[treasurePro] +2, DescriptionManager.Instance.CategoryToNum[treasureCategory2], "TreasureIcon");
+        Debug.Log("宝物2的图标为" + TImgPath2);
+        GameObject T2 = GameObject.Find("宝物2");
+        Texture2D texture2 = Resources.Load<Texture2D>(TImgPath2);
+        Sprite sp2 = Sprite.Create(texture2, new Rect(0, 0, texture2.width, texture2.height), new Vector2(0.5f, 0.5f));
+        T2.GetComponent<Image>().sprite = sp2;
+
+        GameObject T2Text = GameObject.Find("TreasurText2");
+        T2Text.GetComponent<Text>().text = ExcelReader.Instance.GetProfessionDes(DescriptionManager.Instance.ProToNum[treasurePro] + 2, DescriptionManager.Instance.CategoryToNum[treasureCategory2], "TreasureDes");
+
     }
 }

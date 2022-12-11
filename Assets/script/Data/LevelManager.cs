@@ -19,8 +19,8 @@ public class LevelManager : MonoBehaviour
         Debug.Log("LevelManager∆Ù∂Ø");
         Instance = this;
         level = 1;
-        AttackFix = 5;
-        DefFix = 5;
+        AttackFix = 0;
+        DefFix = 0;
         diffCount = 0.5f;
         Debug.Log(level);
     }

@@ -29,6 +29,7 @@ public class UIManager : MonoBehaviour
             GameObject obj = Instantiate(Resources.Load("UI/" + uiName), canvasTF) as GameObject;
             //改名字
             obj.name = uiName;
+            Debug.Log(obj);
             //添加需要的脚本
             ui = obj.AddComponent<T>();
             //添加到集合uiList

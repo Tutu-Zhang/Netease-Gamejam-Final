@@ -33,83 +33,94 @@ public class FightInit : FightUnit
                 EnemyManager.Instance.loadRes("10000");
                 break;
 
-            case 0:
+            case 1:
                 EnemyManager.Instance.loadRes("10000");
                 //播放战斗bgm，这里只需要输入bgm的名字就可以
                 if (AudioManager.Instance != null)
-                    AudioManager.Instance.PlayBGM("教学关卡");
+                    AudioManager.Instance.PlayBGM("浅海战斗Infinite Horizons - FiftySounds");
                 break;
-            case 1:
+            case 2:
                 EnemyManager.Instance.loadRes("10001");
                 //播放战斗bgm，这里只需要输入bgm的名字就可以
                 if (AudioManager.Instance != null)
-                    AudioManager.Instance.PlayBGM("小兵");
+                    AudioManager.Instance.PlayBGM("浅海战斗Infinite Horizons - FiftySounds");
                 break;
-            case 2:
+            case 3:
                 EnemyManager.Instance.loadRes("10002");
                 //播放战斗bgm，这里只需要输入bgm的名字就可以
                 if (AudioManager.Instance != null)
-                    AudioManager.Instance.PlayBGM("拳头哥");
+                    AudioManager.Instance.PlayBGM("浅海战斗Infinite Horizons - FiftySounds");
                 break;
-            case 3:
+            case 4:
                 EnemyManager.Instance.loadRes("10003");
                 //播放战斗bgm，这里只需要输入bgm的名字就可以
                 if (AudioManager.Instance != null)
-                    AudioManager.Instance.PlayBGM("刀哥");
-                break;
-            case 4:
-                EnemyManager.Instance.loadRes("10004");
-                //播放战斗bgm，这里只需要输入bgm的名字就可以
-                if (AudioManager.Instance != null)
-                    AudioManager.Instance.PlayBGM("最后一关");
+                    AudioManager.Instance.PlayBGM("Boss2满月之潮");
                 break;
             case 5:
                 EnemyManager.Instance.loadRes("10004");
                 //播放战斗bgm，这里只需要输入bgm的名字就可以
                 if (AudioManager.Instance != null)
-                    AudioManager.Instance.PlayBGM("最后一关");
+                    AudioManager.Instance.PlayBGM("中海战斗Unnatural");
                 break;
             case 6:
-                EnemyManager.Instance.loadRes("10004");
+                EnemyManager.Instance.loadRes("10005");
                 //播放战斗bgm，这里只需要输入bgm的名字就可以
                 if (AudioManager.Instance != null)
-                    AudioManager.Instance.PlayBGM("最后一关");
+                    AudioManager.Instance.PlayBGM("中海战斗Unnatural");
                 break;
             case 7:
-                EnemyManager.Instance.loadRes("10004");
+                EnemyManager.Instance.loadRes("10006");
                 //播放战斗bgm，这里只需要输入bgm的名字就可以
                 if (AudioManager.Instance != null)
-                    AudioManager.Instance.PlayBGM("最后一关");
+                    AudioManager.Instance.PlayBGM("中海战斗Unnatural");
                 break;
             case 8:
-                EnemyManager.Instance.loadRes("10004");
+                EnemyManager.Instance.loadRes("10007");
                 //播放战斗bgm，这里只需要输入bgm的名字就可以
                 if (AudioManager.Instance != null)
-                    AudioManager.Instance.PlayBGM("最后一关");
+                    AudioManager.Instance.PlayBGM("Boss2满月之潮");
                 break;
             case 9:
-                EnemyManager.Instance.loadRes("10004");
+                EnemyManager.Instance.loadRes("10008");
                 //播放战斗bgm，这里只需要输入bgm的名字就可以
                 if (AudioManager.Instance != null)
-                    AudioManager.Instance.PlayBGM("最后一关");
+                    AudioManager.Instance.PlayBGM("深海战斗Morpheus");
                 break;
             case 10:
-                EnemyManager.Instance.loadRes("10004");
+                EnemyManager.Instance.loadRes("10009");
                 //播放战斗bgm，这里只需要输入bgm的名字就可以
                 if (AudioManager.Instance != null)
-                    AudioManager.Instance.PlayBGM("最后一关");
+                    AudioManager.Instance.PlayBGM("深海战斗Morpheus");
                 break;
             case 11:
-                EnemyManager.Instance.loadRes("10004");
+                EnemyManager.Instance.loadRes("100010");
                 //播放战斗bgm，这里只需要输入bgm的名字就可以
                 if (AudioManager.Instance != null)
-                    AudioManager.Instance.PlayBGM("最后一关");
+                    AudioManager.Instance.PlayBGM("深海战斗Morpheus");
                 break;
             case 12:
-                EnemyManager.Instance.loadRes("10004");
-                //播放战斗bgm，这里只需要输入bgm的名字就可以
-                if (AudioManager.Instance != null)
-                    AudioManager.Instance.PlayBGM("最后一关");
+                switch (RoleManager.Instance.PlayerProfession)
+                {
+                    case Professions.PALADIN:
+                        EnemyManager.Instance.loadRes("100011");
+                        //播放战斗bgm，这里只需要输入bgm的名字就可以
+                        if (AudioManager.Instance != null)
+                            AudioManager.Instance.PlayBGM("Boss2满月之潮");
+                        break;
+                    case Professions.MONK:
+                        EnemyManager.Instance.loadRes("100012");
+                        //播放战斗bgm，这里只需要输入bgm的名字就可以
+                        if (AudioManager.Instance != null)
+                            AudioManager.Instance.PlayBGM("Boss2满月之潮");
+                        break;  
+                    case Professions.SAMURAI:
+                        EnemyManager.Instance.loadRes("100013");
+                        //播放战斗bgm，这里只需要输入bgm的名字就可以
+                        if (AudioManager.Instance != null)
+                            AudioManager.Instance.PlayBGM("Boss2满月之潮");
+                        break;
+                }
                 break;
         }
 

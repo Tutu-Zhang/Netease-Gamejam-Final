@@ -70,6 +70,8 @@ public class FightManager : MonoBehaviour
                 fightUnit = obj.AddComponent <FightWin>();
                 break;
             case FightType.Lose:
+                GameObject enemy = GameObject.Find("EnemyWaiting" + (LevelManager.Instance.level).ToString() + "(Clone)");
+                enemy.SetActive(false);
                 fightUnit = obj.AddComponent <FightLose>();
                 break;
         }
