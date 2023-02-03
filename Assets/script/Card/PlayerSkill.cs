@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-//ÈËÎï¼¼ÄÜ·½Ãæ£¬ÎäÊ¿¼¼ÄÜÎª¼ÓÒ»»ØºÏbuff£¬ÆäËû¶¼Îª¼´Ê±½áËã¼¼ÄÜ
+//äººç‰©æŠ€èƒ½æ–¹é¢ï¼Œæ­¦å£«æŠ€èƒ½ä¸ºåŠ ä¸€å›åˆbuffï¼Œå…¶ä»–éƒ½ä¸ºå³æ—¶ç»“ç®—æŠ€èƒ½
 public class PlayerSkill
 {
 
@@ -24,25 +24,29 @@ public class PlayerSkill
         }
     }
 
-
+    //æ£€æµ‹ä»»åŠ¡4
     public static void PaladinSkill(SkillLevel level)
     {
         switch (level)
         {
             case SkillLevel.NORMAL:
                 FightManager.Instance.GetDefendRecover(4);
+                TaskManager.Instance.matchTask(4, 4);
                 break;
 
             case SkillLevel.RARE:
                 FightManager.Instance.GetDefendRecover(6);
+                TaskManager.Instance.matchTask(4, 6);
                 break;
 
             case SkillLevel.EPIC:
                 FightManager.Instance.GetDefendRecover(8);
+                TaskManager.Instance.matchTask(4, 8);
                 break;
 
             case SkillLevel.LEGENDARY:
                 FightManager.Instance.GetDefendRecover(10);
+                TaskManager.Instance.matchTask(4, 10);
                 break;
 
         }

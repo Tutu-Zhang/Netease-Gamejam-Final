@@ -141,6 +141,12 @@ public class FightManager : MonoBehaviour
             }
         }
 
+        //检测任务11 14 24 5
+        TaskManager.Instance.matchTask(11);
+        TaskManager.Instance.matchTask(14);
+        TaskManager.Instance.matchTask(24);
+        TaskManager.Instance.matchTask(5);
+
         //更新界面
         UIManager.Instance.GetUI<FightUI>("fightBackground").UpdateHP();
         UIManager.Instance.GetUI<FightUI>("fightBackground").UpdateDef();
@@ -161,6 +167,8 @@ public class FightManager : MonoBehaviour
             }
                 CurHP = MaxHP; 
         }
+
+        TaskManager.Instance.matchTask(12,recover);
 
         UIManager.Instance.GetUI<FightUI>("fightBackground").UpdateHP();
         UIManager.Instance.GetUI<FightUI>("fightBackground").UpdateDef();
@@ -188,6 +196,12 @@ public class FightManager : MonoBehaviour
 
         AudioManager.Instance.PlayEffect("护甲");
         DefCount += recover;
+
+        //检测任务1, 3, 14
+        TaskManager.Instance.matchTask(1, DefCount);
+        TaskManager.Instance.matchTask(3, recover);
+        TaskManager.Instance.matchTask(6);
+        TaskManager.Instance.matchTask(14);
 
         UIManager.Instance.GetUI<FightUI>("fightBackground").UpdateHP();
         UIManager.Instance.GetUI<FightUI>("fightBackground").UpdateDef();
@@ -262,7 +276,11 @@ public class FightManager : MonoBehaviour
 
 
         EnemyManager.Instance.GetEnemy(0).Hited(this_dmg);
-        
+
+        TaskManager.Instance.matchTask(16, this_dmg);
+        TaskManager.Instance.matchTask(22, this_dmg);
+        TaskManager.Instance.matchTask(23, this_dmg);
+
     }
 
     public void SetBtn(bool option)

@@ -28,6 +28,8 @@ public class RoleManager : MonoBehaviour
     private List<TreasureItem> Treasures;   
     public TreasureItem Treasure_1, Treasure_2;//1是公共，2是职业
 
+    public TaskItem Task_1 = null, Task_2 = null;//两个Task
+
     public void Start()
     {
         Instance = this;
@@ -76,7 +78,7 @@ public class RoleManager : MonoBehaviour
         return false;
     }
 
-    //解锁某个特定宝物
+    //解锁某个特定宝物,此函数在完成任务的函数中会顺便调用
     public void UnlockTreasure(TreasurePro p, TreasureLevel l, TreasureCategory c)
     {
         for (int i = 0; i < Treasures.Count; i++)

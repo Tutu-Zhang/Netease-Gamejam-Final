@@ -65,6 +65,13 @@ public class EnemyManager
         //后续做是否击杀敌人的判断
         if (enemyList.Count == 0)
         {
+            //检测任务2,13,21
+            TaskManager.Instance.matchTask(2);
+            TaskManager.Instance.matchTask(13);
+            TaskManager.Instance.matchTask(21);
+            TaskManager.Instance.matchTask(25);
+            TaskManager.Instance.matchTask(26);
+
             FightManager.Instance.ChangeType(FightType.Win);
         }
     }
